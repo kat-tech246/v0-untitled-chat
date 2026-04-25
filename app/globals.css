@@ -1,0 +1,235 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Azurél Color Palette */
+  --blue-lt: #DCE8F0;
+  --blue-mid: #8FAFC1;
+  --blue-pale: #EEF4F8;
+  --blue-deep: #2E5A78;
+  --ivory: #F6F2EA;
+  --ivory-warm: #EDE8DD;
+  --wine: #5A0F1A;
+  --wine-deep: #3A0A11;
+  --white: #FFFFFF;
+  
+  /* Design tokens */
+  --background: var(--ivory);
+  --foreground: var(--wine-deep);
+  --card: var(--white);
+  --card-foreground: var(--wine-deep);
+  --popover: var(--white);
+  --popover-foreground: var(--wine-deep);
+  --primary: var(--wine);
+  --primary-foreground: var(--ivory);
+  --secondary: var(--blue-lt);
+  --secondary-foreground: var(--wine-deep);
+  --muted: var(--blue-pale);
+  --muted-foreground: var(--blue-mid);
+  --accent: var(--blue-lt);
+  --accent-foreground: var(--wine);
+  --destructive: #ef4444;
+  --destructive-foreground: #fef2f2;
+  --border: rgba(143, 175, 193, 0.25);
+  --input: rgba(143, 175, 193, 0.4);
+  --ring: var(--blue-mid);
+  --radius: 0;
+}
+
+@theme inline {
+  /* Fonts */
+  --font-sans: var(--font-josefin-sans), 'Josefin Sans', sans-serif;
+  --font-serif: var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;
+  --font-caps: var(--font-cinzel), 'Cinzel', serif;
+  
+  /* Custom Colors */
+  --color-blue-lt: #DCE8F0;
+  --color-blue-mid: #8FAFC1;
+  --color-blue-pale: #EEF4F8;
+  --color-blue-deep: #2E5A78;
+  --color-ivory: #F6F2EA;
+  --color-ivory-warm: #EDE8DD;
+  --color-wine: #5A0F1A;
+  --color-wine-deep: #3A0A11;
+  
+  /* Design Tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius));
+  --radius-md: calc(var(--radius));
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius));
+  
+  /* Custom Spacing */
+  --spacing-13: 3.25rem;
+  --spacing-15: 3.75rem;
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+  --spacing-30: 7.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    transform: translateX(-120%) skewX(-8deg);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  65% {
+    transform: translateX(220%) skewX(-8deg);
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.04);
+  }
+}
+
+@keyframes growLine {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.9s ease both;
+}
+
+.animate-fadeUp-delay-1 {
+  animation: fadeUp 0.9s 0.12s ease both;
+}
+
+.animate-fadeUp-delay-2 {
+  animation: fadeUp 0.9s 0.24s ease both;
+}
+
+.animate-fadeUp-delay-3 {
+  animation: fadeUp 0.9s 0.36s ease both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1.2s 0.1s ease both;
+}
+
+.animate-ticker {
+  animation: ticker 32s linear infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 5s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 8s 2s ease-in-out infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 7s 1s ease-in-out infinite;
+}
+
+.animate-growLine {
+  animation: growLine 2s 1.5s ease-in-out infinite;
+}
+
+/* Scroll reveal animation */
+.sr {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+
+.sr.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sr.d1 { transition-delay: 0.1s; }
+.sr.d2 { transition-delay: 0.2s; }
+.sr.d3 { transition-delay: 0.3s; }
+.sr.d4 { transition-delay: 0.4s; }
