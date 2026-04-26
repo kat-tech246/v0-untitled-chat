@@ -21,7 +21,7 @@ export default function Checkout({ productId }: { productId: string }) {
     <div id="checkout" className="w-full">
       <EmbeddedCheckoutProvider
         stripe={stripePromise}
-        options={{ clientSecret: startCheckoutSessionForProduct }}
+        options={{ fetchClientSecret: startCheckoutSessionForProduct }}
       >
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>

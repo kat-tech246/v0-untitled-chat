@@ -2,17 +2,8 @@
 
 import { useState, useCallback } from "react"
 import { Navigation } from "@/components/navigation"
-import { HeroSection } from "@/components/hero-section"
-import { Marquee } from "@/components/marquee"
-import { TrendingSection } from "@/components/trending-section"
-import { ShopSection } from "@/components/shop-section"
-import { StatementSection } from "@/components/statement-section"
-import { LookbookSection } from "@/components/lookbook-section"
-import { TrustSection } from "@/components/trust-section"
-import { AboutSection } from "@/components/about-section"
-import { NewsletterSection } from "@/components/newsletter-section"
-import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
+import { ProductDetail } from "@/components/product-detail"
 import { SearchOverlay } from "@/components/search-overlay"
 import { CartDrawer, type CartItem } from "@/components/cart-drawer"
 import { WishlistDrawer } from "@/components/wishlist-drawer"
@@ -29,7 +20,12 @@ import { CheckoutModal } from "@/components/checkout-modal"
 import { Toast } from "@/components/toast"
 import { type Product } from "@/lib/products"
 
-export function PageWrapper() {
+interface ProductPageWrapperProps {
+  product: Product
+  similarProducts: Product[]
+}
+
+export function ProductPageWrapper({ product, similarProducts }: ProductPageWrapperProps) {
   // UI State
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -73,6 +69,7 @@ export function PageWrapper() {
       return [...prev, { product, quantity }]
     })
     showToast(`${product.name} added to bag`)
+    setIsCartOpen(true)
   }, [showToast])
 
   const updateCartQuantity = useCallback((productId: string, quantity: number) => {
@@ -145,27 +142,15 @@ export function PageWrapper() {
         onOpenCareGuide={() => setIsCareGuideOpen(true)}
       />
 
-      <main>
-        <HeroSection />
-        <Marquee />
-        <TrendingSection 
-          onAddToCart={addToCart}
-          onToggleWishlist={toggleWishlist}
-          wishlistItems={wishlistItems}
-        />
-        <ShopSection 
-          onAddToCart={addToCart}
-          onToggleWishlist={toggleWishlist}
-          onBuyNow={handleBuyNow}
-          wishlistItems={wishlistItems}
-        />
-        <StatementSection />
-        <LookbookSection />
-        <TrustSection />
-        <AboutSection />
-        <NewsletterSection />
-        <ContactSection />
-      </main>
+      <ProductDetail 
+        product={product} 
+        similarProducts={similarProducts}
+        onAddToCart={addToCart}
+        onToggleWishlist={toggleWishlist}
+        onBuyNow={handleBuyNow}
+        isInWishlist={isInWishlist}
+        onOpenSizingGuide={() => setIsSizingGuideOpen(true)}
+      />
 
       <Footer
         onOpenSizingGuide={() => setIsSizingGuideOpen(true)}

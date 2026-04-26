@@ -1,72 +1,98 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const cursorRef = useRef<HTMLDivElement>(null)
   const [isLarge, setIsLarge] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const positionRef = useRef({ x: 0, y: 0 })
+  const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY })
-      setIsVisible(true)
+    const updateCursor = () => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${positionRef.current.x}px, ${positionRef.current.y}px, 0) translate(-50%, -50%)`
+      }
+      rafRef.current = requestAnimationFrame(updateCursor)
     }
 
-    const handleMouseEnter = () => setIsLarge(true)
-    const handleMouseLeave = () => setIsLarge(false)
-
-    document.addEventListener("mousemove", handleMouseMove)
-
-    const interactiveElements = document.querySelectorAll(
-      "a, button, [role='button'], .interactive"
-    )
-    interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", handleMouseEnter)
-      el.addEventListener("mouseleave", handleMouseLeave)
-    })
+    rafRef.current = requestAnimationFrame(updateCursor)
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove)
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", handleMouseEnter)
-        el.removeEventListener("mouseleave", handleMouseLeave)
-      })
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
     }
   }, [])
 
-  // Re-attach listeners when DOM changes
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const handleMouseEnter = () => setIsLarge(true)
-      const handleMouseLeave = () => setIsLarge(false)
+    const handleMouseMove = (e: MouseEvent) => {
+      positionRef.current = { x: e.clientX, y: e.clientY }
+      if (!isVisible) setIsVisible(true)
+    }
 
+    const handleMouseLeave = () => setIsVisible(false)
+    const handleMouseEnter = () => setIsVisible(true)
+
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseleave", handleMouseLeave)
+    document.addEventListener("mouseenter", handleMouseEnter)
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseleave", handleMouseLeave)
+      document.removeEventListener("mouseenter", handleMouseEnter)
+    }
+  }, [isVisible])
+
+  useEffect(() => {
+    const handleEnter = () => setIsLarge(true)
+    const handleLeave = () => setIsLarge(false)
+
+    const attachListeners = () => {
       const interactiveElements = document.querySelectorAll(
-        "a, button, [role='button'], .interactive"
+        "a, button, [role='button'], .interactive, input, textarea, select"
       )
       interactiveElements.forEach((el) => {
-        el.addEventListener("mouseenter", handleMouseEnter)
-        el.addEventListener("mouseleave", handleMouseLeave)
+        el.addEventListener("mouseenter", handleEnter)
+        el.addEventListener("mouseleave", handleLeave)
       })
+    }
+
+    attachListeners()
+
+    // Re-attach listeners when DOM changes
+    const observer = new MutationObserver(() => {
+      attachListeners()
     })
 
     observer.observe(document.body, { childList: true, subtree: true })
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      const interactiveElements = document.querySelectorAll(
+        "a, button, [role='button'], .interactive, input, textarea, select"
+      )
+      interactiveElements.forEach((el) => {
+        el.removeEventListener("mouseenter", handleEnter)
+        el.removeEventListener("mouseleave", handleLeave)
+      })
+    }
   }, [])
-
-  if (!isVisible) return null
 
   return (
     <div
-      className={`fixed pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-[350ms] mix-blend-multiply hidden md:block ${
+      ref={cursorRef}
+      className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full hidden md:block transition-[width,height,background-color,border-color] duration-200 ease-out mix-blend-multiply ${
+        isVisible ? "opacity-100" : "opacity-0"
+      } ${
         isLarge
           ? "w-11 h-11 bg-blue-lt/40 border-[0.5px] border-blue-mid"
           : "w-2 h-2 bg-blue-mid"
       }`}
       style={{
-        left: position.x,
-        top: position.y,
+        willChange: "transform",
       }}
     />
   )

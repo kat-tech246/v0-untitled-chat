@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react"
 import Link from "next/link"
-import { ArrowRight, TrendingUp } from "lucide-react"
+import { ArrowRight, TrendingUp, Heart, ShoppingBag } from "lucide-react"
 import { NecklaceSvg, RingSvg, EarringsSvg } from "./jewelry-svgs"
-import { PRODUCTS, formatPrice } from "@/lib/products"
+import { PRODUCTS, formatPrice, type Product } from "@/lib/products"
 
 const trendingProducts = PRODUCTS.filter(p => p.badge === "New" || p.badge === "Bestseller").slice(0, 3)
 
@@ -20,7 +20,17 @@ const bgStyles: Record<string, string> = {
   "bg-c": "linear-gradient(145deg, #EEF4F8, #DCE8F0)",
 }
 
-export function TrendingSection() {
+interface TrendingSectionProps {
+  onAddToCart?: (product: Product) => void
+  onToggleWishlist?: (product: Product) => void
+  wishlistItems?: Product[]
+}
+
+export function TrendingSection({ 
+  onAddToCart, 
+  onToggleWishlist,
+  wishlistItems = []
+}: TrendingSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -40,6 +50,10 @@ export function TrendingSection() {
 
     return () => observer.disconnect()
   }, [])
+
+  const isInWishlist = (productId: string) => {
+    return wishlistItems.some(item => item.id === productId)
+  }
 
   return (
     <section ref={sectionRef} className="py-20 md:py-24 bg-wine-deep overflow-hidden">
@@ -70,11 +84,11 @@ export function TrendingSection() {
         <div className="grid md:grid-cols-3 gap-6">
           {trendingProducts.map((product, index) => {
             const ProductSvg = productSvgMap[product.id] || NecklaceSvg
+            const inWishlist = isInWishlist(product.id)
             return (
-              <Link
+              <div
                 key={product.id}
-                href={`/product/${product.id}`}
-                className={`sr ${index === 1 ? "d2" : index === 2 ? "d3" : "d1"} group block`}
+                className={`sr ${index === 1 ? "d2" : index === 2 ? "d3" : "d1"} group`}
               >
                 <div 
                   className="aspect-[4/5] relative overflow-hidden mb-4 transition-all duration-500 group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
@@ -87,22 +101,57 @@ export function TrendingSection() {
                     </div>
                   )}
 
-                  {/* Trending Number */}
-                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ivory/90 flex items-center justify-center z-10">
+                  {/* Wishlist Button */}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      onToggleWishlist?.(product)
+                    }}
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ivory/90 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                  >
+                    <Heart 
+                      className="w-4 h-4 text-wine" 
+                      strokeWidth={1.5}
+                      fill={inWishlist ? "#5A0F1A" : "none"}
+                    />
+                  </button>
+
+                  {/* Trending Number - Shows by default, hides on hover */}
+                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ivory/90 flex items-center justify-center z-[5] group-hover:opacity-0 transition-opacity">
                     <span className="font-serif italic text-wine text-lg">{index + 1}</span>
                   </div>
 
                   {/* Product SVG */}
-                  <div className="absolute inset-0 flex items-center justify-center transition-transform duration-600 group-hover:scale-105">
+                  <Link href={`/product/${product.id}`} className="absolute inset-0 flex items-center justify-center transition-transform duration-600 group-hover:scale-105">
                     <ProductSvg className="w-[50%] drop-shadow-[0_10px_25px_rgba(90,15,26,0.1)]" />
-                  </div>
+                  </Link>
 
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-wine/0 group-hover:bg-wine/10 transition-colors duration-400" />
+                  {/* Hover Overlay with Actions */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-ivory/95 p-4 flex gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-400">
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        onAddToCart?.(product)
+                      }}
+                      className="flex-1 flex items-center justify-center gap-1.5 text-[0.38rem] tracking-[2px] uppercase py-2.5 border border-wine bg-transparent text-wine hover:bg-wine/5 transition-colors"
+                    >
+                      <ShoppingBag className="w-3 h-3" strokeWidth={1.5} />
+                      Add to Bag
+                    </button>
+                    <Link 
+                      href={`/product/${product.id}`}
+                      className="flex-1 text-[0.38rem] tracking-[2px] uppercase py-2.5 border border-wine bg-wine text-ivory hover:bg-wine-deep text-center transition-colors"
+                    >
+                      View Details
+                    </Link>
+                  </div>
                 </div>
 
                 {/* Product Info */}
-                <div className="text-center">
+                <Link href={`/product/${product.id}`} className="block text-center">
                   <span className="text-[0.4rem] tracking-[2px] uppercase text-blue-lt/50 block mb-1">
                     {product.category}
                   </span>
@@ -112,8 +161,8 @@ export function TrendingSection() {
                   <span className="text-[0.5rem] tracking-[2px] text-blue-lt/70">
                     {formatPrice(product.priceInCents)}
                   </span>
-                </div>
-              </Link>
+                </Link>
+              </div>
             )
           })}
         </div>

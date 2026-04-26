@@ -93,10 +93,13 @@ export function AboutSection() {
 
             <div className="space-y-4">
               <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
-                Azurél was born from a simple belief — that fine jewellery should not be reserved for a few. Founded in Vienna, each piece is inspired by the iridescent quality of light on water, the shifting blues of an Austrian dawn.
+                Azurél was born from a simple belief — that fine jewellery should not be reserved for a few. We wanted to give you access to trendy, timeless designs without overcharging, bringing accessibility to the jewellery market while keeping identity and quality at the heart of everything we create.
               </p>
               <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
-                Every stone is chosen for its fire. Moissanite and zirconium — brilliant, ethical, and beautiful in every sense of the word. Every setting is crafted to hold that light there, forever.
+                Founded in Vienna, each piece is inspired by the iridescent quality of light on water, the shifting blues of an Austrian dawn. Every stone is chosen for its fire — moissanite and zirconium, brilliant, ethical, and beautiful in every sense of the word.
+              </p>
+              <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
+                We believe luxury should be attainable. By working directly with skilled artisans and cutting out traditional retail markups, we offer pieces that rival high-end jewellery houses at a fraction of the price — without compromising on craftsmanship, materials, or design.
               </p>
               <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
                 Azurél is jewellery for the woman who knows what she wants — and wears it without explanation.

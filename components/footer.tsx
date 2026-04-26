@@ -6,6 +6,7 @@ interface FooterProps {
   onOpenSizingGuide?: () => void
   onOpenShippingInfo?: () => void
   onOpenCareGuide?: () => void
+  onOpenSustainability?: () => void
   onOpenFAQ?: () => void
   onOpenPrivacyPolicy?: () => void
   onOpenTerms?: () => void
@@ -24,6 +25,7 @@ export function Footer({
   onOpenSizingGuide,
   onOpenShippingInfo,
   onOpenCareGuide,
+  onOpenSustainability,
   onOpenFAQ,
   onOpenPrivacyPolicy,
   onOpenTerms,
@@ -111,7 +113,7 @@ export function Footer({
               </li>
               <li>
                 <button
-                  onClick={onOpenShippingInfo}
+                  onClick={onOpenSustainability}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
                   Sustainability

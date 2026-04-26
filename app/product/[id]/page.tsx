@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { PRODUCTS } from "@/lib/products"
-import { ProductDetail } from "@/components/product-detail"
+import { ProductPageWrapper } from "@/components/product-page-wrapper"
+import { CustomCursor } from "@/components/custom-cursor"
 
 export async function generateStaticParams() {
   return PRODUCTS.map((product) => ({
@@ -13,11 +14,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const product = PRODUCTS.find((p) => p.id === id)
   
   if (!product) {
-    return { title: "Product Not Found | Azurél" }
+    return { title: "Product Not Found | Azurel" }
   }
 
   return {
-    title: `${product.name} | Azurél Fine Jewellery`,
+    title: `${product.name} | Azurel Fine Jewellery`,
     description: product.description,
   }
 }
@@ -42,5 +43,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     similarProducts.push(...additional)
   }
 
-  return <ProductDetail product={product} similarProducts={similarProducts} />
+  return (
+    <>
+      <CustomCursor />
+      <ProductPageWrapper product={product} similarProducts={similarProducts} />
+    </>
+  )
 }
