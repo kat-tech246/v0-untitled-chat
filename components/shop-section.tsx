@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { Heart, Eye, ShoppingBag } from "lucide-react"
 import Link from "next/link"
 import { NecklaceSvg, RingSvg, EarringsSvg, BraceletSvg, ChokerSvg, StackRingSvg } from "./jewelry-svgs"
@@ -47,25 +47,6 @@ export function ShopSection({
   wishlistItems = []
 }: ShopSectionProps) {
   const [activeFilter, setActiveFilter] = useState("All")
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in")
-          }
-        })
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -28px 0px" }
-    )
-
-    const elements = sectionRef.current?.querySelectorAll(".sr")
-    elements?.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
-  }, [])
 
   const filteredProducts =
     activeFilter === "All"
@@ -80,10 +61,10 @@ export function ShopSection({
   }
 
   return (
-    <section id="shop" className="py-20 md:py-30 bg-ivory" ref={sectionRef}>
+    <section id="shop" className="py-20 md:py-30 bg-ivory">
       <div className="max-w-[1200px] mx-auto px-6 md:px-14">
         {/* Header */}
-        <div className="sr flex flex-col md:flex-row justify-between items-start md:items-end gap-5 mb-13">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-5 mb-13">
           <div>
             <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-blue-mid block mb-3">
               The Collection
@@ -119,7 +100,7 @@ export function ShopSection({
             return (
               <div
                 key={product.id}
-                className={`sr ${index % 3 === 1 ? "d2" : index % 3 === 2 ? "d3" : "d1"} group relative interactive`}
+                className="group relative interactive"
               >
                 {/* Image Container */}
                 <div
@@ -209,7 +190,7 @@ export function ShopSection({
         )}
 
         {/* View All Button */}
-        <div className="sr text-center mt-14">
+        <div className="text-center mt-14">
           <Link
             href="#shop"
             onClick={() => setActiveFilter("All")}

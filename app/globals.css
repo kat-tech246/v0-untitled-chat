@@ -217,16 +217,11 @@
   animation: growLine 2s 1.5s ease-in-out infinite;
 }
 
-/* Scroll reveal animation */
+/* Scroll reveal animation - start visible */
 .sr {
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.85s ease, transform 0.85s ease;
-}
-
-.sr.in {
   opacity: 1;
   transform: translateY(0);
+  transition: opacity 0.85s ease, transform 0.85s ease;
 }
 
 .sr.d1 { transition-delay: 0.1s; }
