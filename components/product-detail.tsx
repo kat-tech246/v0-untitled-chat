@@ -23,6 +23,12 @@ const productSvgMap: Record<string, React.ComponentType<{ className?: string }>>
   'riviere-tennis-bracelet': BraceletSvg,
   'lune-torque-choker': ChokerSvg,
   'cascade-stack-set': StackRingSvg,
+  'vienna-drop-earrings': EarringsSvg,
+  'danube-chain-bracelet': BraceletSvg,
+  'opera-hoop-earrings': EarringsSvg,
+  'schonbrunn-signet-ring': RingSvg,
+  'prater-pearl-necklace': NecklaceSvg,
+  'klimt-cuff-bracelet': BraceletSvg,
 }
 
 const bgStyles: Record<string, string> = {

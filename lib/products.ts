@@ -66,6 +66,60 @@ export const PRODUCTS: Product[] = [
     badge: null,
     bg: 'bg-f',
   },
+  {
+    id: 'vienna-drop-earrings',
+    name: 'Vienna Drop Earrings',
+    description: 'Elegant drop earrings inspired by Viennese chandeliers, featuring cascading crystals in sterling silver.',
+    priceInCents: 22500, // €225
+    category: 'earrings',
+    badge: null,
+    bg: 'bg-a',
+  },
+  {
+    id: 'danube-chain-bracelet',
+    name: 'Danube Chain Bracelet',
+    description: 'A flowing chain bracelet inspired by the Danube river, crafted in 18k gold vermeil with a secure clasp.',
+    priceInCents: 18500, // €185
+    category: 'bracelets',
+    badge: 'New',
+    bg: 'bg-b',
+  },
+  {
+    id: 'opera-hoop-earrings',
+    name: 'Opera Hoop Earrings',
+    description: 'Classic hoop earrings with a modern twist, featuring a polished finish and secure click closure.',
+    priceInCents: 14500, // €145
+    category: 'earrings',
+    badge: null,
+    bg: 'bg-c',
+  },
+  {
+    id: 'schonbrunn-signet-ring',
+    name: 'Schönbrunn Signet Ring',
+    description: 'A contemporary signet ring inspired by imperial Vienna, handcrafted in solid sterling silver.',
+    priceInCents: 21000, // €210
+    category: 'rings',
+    badge: 'Bestseller',
+    bg: 'bg-d',
+  },
+  {
+    id: 'prater-pearl-necklace',
+    name: 'Prater Pearl Necklace',
+    description: 'A delicate chain adorned with freshwater pearls, evoking the elegance of Viennese gardens.',
+    priceInCents: 32000, // €320
+    category: 'necklaces',
+    badge: null,
+    bg: 'bg-e',
+  },
+  {
+    id: 'klimt-cuff-bracelet',
+    name: 'Klimt Cuff Bracelet',
+    description: 'An artistic cuff bracelet inspired by Gustav Klimt, featuring intricate golden patterns.',
+    priceInCents: 38000, // €380
+    category: 'bracelets',
+    badge: null,
+    bg: 'bg-f',
+  },
 ]
 
 export function formatPrice(priceInCents: number): string {

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { ArrowRight, TrendingUp, Heart, ShoppingBag } from "lucide-react"
-import { NecklaceSvg, RingSvg, EarringsSvg } from "./jewelry-svgs"
+import { NecklaceSvg, RingSvg, EarringsSvg, BraceletSvg, ChokerSvg, StackRingSvg } from "./jewelry-svgs"
 import { PRODUCTS, formatPrice, type Product } from "@/lib/products"
 
 const trendingProducts = PRODUCTS.filter(p => p.badge === "New" || p.badge === "Bestseller").slice(0, 3)
@@ -12,6 +12,15 @@ const productSvgMap: Record<string, React.ComponentType<{ className?: string }>>
   'ciel-pendant': NecklaceSvg,
   'aurore-bangle-ring': RingSvg,
   'etoile-flower-studs': EarringsSvg,
+  'riviere-tennis-bracelet': BraceletSvg,
+  'lune-torque-choker': ChokerSvg,
+  'cascade-stack-set': StackRingSvg,
+  'vienna-drop-earrings': EarringsSvg,
+  'danube-chain-bracelet': BraceletSvg,
+  'opera-hoop-earrings': EarringsSvg,
+  'schonbrunn-signet-ring': RingSvg,
+  'prater-pearl-necklace': NecklaceSvg,
+  'klimt-cuff-bracelet': BraceletSvg,
 }
 
 const bgStyles: Record<string, string> = {
