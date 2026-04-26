@@ -39,16 +39,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isToastVisible, setIsToastVisible] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false)
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount (client-side only)
   useEffect(() => {
+    if (typeof window === "undefined") return
+    
     try {
       const savedCart = localStorage.getItem("azurel-cart")
       const savedWishlist = localStorage.getItem("azurel-wishlist")
       if (savedCart) {
-        setCartItems(JSON.parse(savedCart))
+        const parsed = JSON.parse(savedCart)
+        if (Array.isArray(parsed)) {
+          setCartItems(parsed)
+        }
       }
       if (savedWishlist) {
-        setWishlistItems(JSON.parse(savedWishlist))
+        const parsed = JSON.parse(savedWishlist)
+        if (Array.isArray(parsed)) {
+          setWishlistItems(parsed)
+        }
       }
     } catch (e) {
       console.error("Error loading cart/wishlist from localStorage:", e)
@@ -172,7 +180,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext)
   if (!context) {
-    throw new Error("useCart must be used within a CartProvider")
+    // Return safe defaults if context is not available (during SSR or outside provider)
+    return {
+      cartItems: [],
+      addToCart: () => {},
+      updateCartQuantity: () => {},
+      removeFromCart: () => {},
+      cartCount: 0,
+      wishlistItems: [],
+      addToWishlist: () => {},
+      removeFromWishlist: () => {},
+      toggleWishlist: () => {},
+      isInWishlist: () => false,
+      toastMessage: "",
+      isToastVisible: false,
+      showToast: () => {},
+      hideToast: () => {},
+    } as CartContextType
   }
   return context
 }
