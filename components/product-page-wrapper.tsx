@@ -5,7 +5,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ProductDetail } from "@/components/product-detail"
 import { SearchOverlay } from "@/components/search-overlay"
-import { CartDrawer, type CartItem } from "@/components/cart-drawer"
+import { CartDrawer } from "@/components/cart-drawer"
 import { WishlistDrawer } from "@/components/wishlist-drawer"
 import { SizingGuideModal } from "@/components/sizing-guide-modal"
 import { ShippingInfoModal } from "@/components/shipping-info-modal"
@@ -19,6 +19,7 @@ import { SustainabilityModal } from "@/components/sustainability-modal"
 import { CheckoutModal } from "@/components/checkout-modal"
 import { Toast } from "@/components/toast"
 import { type Product } from "@/lib/products"
+import { useCart } from "@/lib/cart-context"
 
 interface ProductPageWrapperProps {
   product: Product
@@ -26,6 +27,22 @@ interface ProductPageWrapperProps {
 }
 
 export function ProductPageWrapper({ product, similarProducts }: ProductPageWrapperProps) {
+  // Use shared cart context
+  const {
+    cartItems,
+    addToCart,
+    updateCartQuantity,
+    removeFromCart,
+    cartCount,
+    wishlistItems,
+    removeFromWishlist,
+    toggleWishlist,
+    isInWishlist,
+    toastMessage,
+    isToastVisible,
+    hideToast,
+  } = useCart()
+
   // UI State
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -42,76 +59,11 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [checkoutProductId, setCheckoutProductId] = useState<string | null>(null)
 
-  // Data State
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
-  const [wishlistItems, setWishlistItems] = useState<Product[]>([])
-
-  // Toast State
-  const [toastMessage, setToastMessage] = useState("")
-  const [isToastVisible, setIsToastVisible] = useState(false)
-
-  const showToast = useCallback((message: string) => {
-    setToastMessage(message)
-    setIsToastVisible(true)
-  }, [])
-
-  // Cart Functions
-  const addToCart = useCallback((product: Product, quantity: number = 1) => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id)
-      if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        )
-      }
-      return [...prev, { product, quantity }]
-    })
-    showToast(`${product.name} added to bag`)
+  // Cart handler that also opens the drawer
+  const handleAddToCart = useCallback((p: Product, quantity: number = 1) => {
+    addToCart(p, quantity)
     setIsCartOpen(true)
-  }, [showToast])
-
-  const updateCartQuantity = useCallback((productId: string, quantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
-    )
-  }, [])
-
-  const removeFromCart = useCallback((productId: string) => {
-    setCartItems((prev) => prev.filter((item) => item.product.id !== productId))
-    showToast("Item removed from bag")
-  }, [showToast])
-
-  // Wishlist Functions
-  const addToWishlist = useCallback((product: Product) => {
-    setWishlistItems((prev) => {
-      if (prev.some((item) => item.id === product.id)) {
-        return prev
-      }
-      return [...prev, product]
-    })
-    showToast(`${product.name} saved to wishlist`)
-  }, [showToast])
-
-  const removeFromWishlist = useCallback((productId: string) => {
-    setWishlistItems((prev) => prev.filter((item) => item.id !== productId))
-    showToast("Item removed from wishlist")
-  }, [showToast])
-
-  const isInWishlist = useCallback((productId: string) => {
-    return wishlistItems.some((item) => item.id === productId)
-  }, [wishlistItems])
-
-  const toggleWishlist = useCallback((product: Product) => {
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id)
-    } else {
-      addToWishlist(product)
-    }
-  }, [isInWishlist, removeFromWishlist, addToWishlist])
+  }, [addToCart])
 
   // Checkout Functions
   const handleCheckout = useCallback(() => {
@@ -126,8 +78,6 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
     setCheckoutProductId(productId)
     setIsCheckoutOpen(true)
   }, [])
-
-  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
     <>
@@ -145,7 +95,7 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
       <ProductDetail 
         product={product} 
         similarProducts={similarProducts}
-        onAddToCart={addToCart}
+        onAddToCart={handleAddToCart}
         onToggleWishlist={toggleWishlist}
         onBuyNow={handleBuyNow}
         isInWishlist={isInWishlist}
@@ -168,9 +118,8 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
       <SearchOverlay
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        onProductClick={(product) => {
-          addToCart(product)
-          setIsCartOpen(true)
+        onProductClick={(p) => {
+          handleAddToCart(p)
         }}
       />
 
@@ -188,9 +137,8 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
         onClose={() => setIsWishlistOpen(false)}
         items={wishlistItems}
         onRemoveItem={removeFromWishlist}
-        onAddToCart={(product) => {
-          addToCart(product)
-          setIsCartOpen(true)
+        onAddToCart={(p) => {
+          handleAddToCart(p)
         }}
       />
 
@@ -253,7 +201,7 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
       <Toast
         message={toastMessage}
         isVisible={isToastVisible}
-        onClose={() => setIsToastVisible(false)}
+        onClose={hideToast}
       />
     </>
   )

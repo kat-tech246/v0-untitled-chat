@@ -14,7 +14,7 @@ import { NewsletterSection } from "@/components/newsletter-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { SearchOverlay } from "@/components/search-overlay"
-import { CartDrawer, type CartItem } from "@/components/cart-drawer"
+import { CartDrawer } from "@/components/cart-drawer"
 import { WishlistDrawer } from "@/components/wishlist-drawer"
 import { SizingGuideModal } from "@/components/sizing-guide-modal"
 import { ShippingInfoModal } from "@/components/shipping-info-modal"
@@ -27,9 +27,24 @@ import { CustomerSupportModal } from "@/components/customer-support-modal"
 import { SustainabilityModal } from "@/components/sustainability-modal"
 import { CheckoutModal } from "@/components/checkout-modal"
 import { Toast } from "@/components/toast"
-import { type Product } from "@/lib/products"
+import { useCart } from "@/lib/cart-context"
 
 export function PageWrapper() {
+  // Use shared cart context
+  const {
+    cartItems,
+    addToCart,
+    updateCartQuantity,
+    removeFromCart,
+    cartCount,
+    wishlistItems,
+    removeFromWishlist,
+    toggleWishlist,
+    toastMessage,
+    isToastVisible,
+    hideToast,
+  } = useCart()
+
   // UI State
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -46,76 +61,6 @@ export function PageWrapper() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [checkoutProductId, setCheckoutProductId] = useState<string | null>(null)
 
-  // Data State
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
-  const [wishlistItems, setWishlistItems] = useState<Product[]>([])
-
-  // Toast State
-  const [toastMessage, setToastMessage] = useState("")
-  const [isToastVisible, setIsToastVisible] = useState(false)
-
-  const showToast = useCallback((message: string) => {
-    setToastMessage(message)
-    setIsToastVisible(true)
-  }, [])
-
-  // Cart Functions
-  const addToCart = useCallback((product: Product, quantity: number = 1) => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id)
-      if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        )
-      }
-      return [...prev, { product, quantity }]
-    })
-    showToast(`${product.name} added to bag`)
-  }, [showToast])
-
-  const updateCartQuantity = useCallback((productId: string, quantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
-    )
-  }, [])
-
-  const removeFromCart = useCallback((productId: string) => {
-    setCartItems((prev) => prev.filter((item) => item.product.id !== productId))
-    showToast("Item removed from bag")
-  }, [showToast])
-
-  // Wishlist Functions
-  const addToWishlist = useCallback((product: Product) => {
-    setWishlistItems((prev) => {
-      if (prev.some((item) => item.id === product.id)) {
-        return prev
-      }
-      return [...prev, product]
-    })
-    showToast(`${product.name} saved to wishlist`)
-  }, [showToast])
-
-  const removeFromWishlist = useCallback((productId: string) => {
-    setWishlistItems((prev) => prev.filter((item) => item.id !== productId))
-    showToast("Item removed from wishlist")
-  }, [showToast])
-
-  const isInWishlist = useCallback((productId: string) => {
-    return wishlistItems.some((item) => item.id === productId)
-  }, [wishlistItems])
-
-  const toggleWishlist = useCallback((product: Product) => {
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id)
-    } else {
-      addToWishlist(product)
-    }
-  }, [isInWishlist, removeFromWishlist, addToWishlist])
-
   // Checkout Functions
   const handleCheckout = useCallback(() => {
     if (cartItems.length > 0) {
@@ -129,8 +74,6 @@ export function PageWrapper() {
     setCheckoutProductId(productId)
     setIsCheckoutOpen(true)
   }, [])
-
-  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
     <>
@@ -268,7 +211,7 @@ export function PageWrapper() {
       <Toast
         message={toastMessage}
         isVisible={isToastVisible}
-        onClose={() => setIsToastVisible(false)}
+        onClose={hideToast}
       />
     </>
   )
