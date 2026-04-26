@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { X } from "lucide-react"
 import { PRODUCTS, type Product } from "@/lib/products"
-import { RingSVG, NecklaceSVG, EarringSVG, BraceletSVG } from "./jewelry-svgs"
+import { RingSvg, NecklaceSvg, EarringsSvg, BraceletSvg } from "./jewelry-svgs"
 
 interface SearchOverlayProps {
   isOpen: boolean
@@ -53,15 +53,15 @@ export function SearchOverlay({ isOpen, onClose, onProductClick }: SearchOverlay
   const getProductSVG = (category: string) => {
     switch (category) {
       case "rings":
-        return <RingSVG className="w-[60%]" />
+        return <RingSvg className="w-[60%]" />
       case "necklaces":
-        return <NecklaceSVG className="w-[60%]" />
+        return <NecklaceSvg className="w-[60%]" />
       case "earrings":
-        return <EarringSVG className="w-[60%]" />
+        return <EarringsSvg className="w-[60%]" />
       case "bracelets":
-        return <BraceletSVG className="w-[60%]" />
+        return <BraceletSvg className="w-[60%]" />
       default:
-        return <RingSVG className="w-[60%]" />
+        return <RingSvg className="w-[60%]" />
     }
   }
 

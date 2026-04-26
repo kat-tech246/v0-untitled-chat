@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Heart } from "lucide-react"
+import { Heart, Eye } from "lucide-react"
 import Link from "next/link"
 import { NecklaceSvg, RingSvg, EarringsSvg, BraceletSvg, ChokerSvg, StackRingSvg } from "./jewelry-svgs"
 import { PRODUCTS, formatPrice } from "@/lib/products"
@@ -143,9 +143,13 @@ export function ShopSection() {
 
                     {/* Hover Overlay */}
                     <div className="absolute bottom-0 left-0 right-0 bg-ivory/[0.97] border-t border-blue-mid/25 p-3 flex gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-400">
-                      <button className="flex-1 text-[0.36rem] tracking-[2px] uppercase py-2 px-1 border-[0.5px] border-wine bg-transparent text-wine hover:bg-wine/5 transition-colors text-center">
-                        Quick View
-                      </button>
+                      <Link 
+                        href={`/product/${product.id}`}
+                        className="flex-1 flex items-center justify-center gap-1.5 text-[0.36rem] tracking-[2px] uppercase py-2 px-1 border-[0.5px] border-wine bg-transparent text-wine hover:bg-wine/5 transition-colors text-center"
+                      >
+                        <Eye className="w-3 h-3" strokeWidth={1.5} />
+                        View Details
+                      </Link>
                       <button 
                         onClick={() => handleBuyNow(product.id)}
                         className="flex-1 text-[0.36rem] tracking-[2px] uppercase py-2 px-1 border-[0.5px] border-wine bg-wine text-ivory hover:bg-wine-deep transition-colors text-center"

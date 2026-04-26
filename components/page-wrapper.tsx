@@ -4,6 +4,7 @@ import { useState, useCallback } from "react"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
 import { Marquee } from "@/components/marquee"
+import { TrendingSection } from "@/components/trending-section"
 import { ShopSection } from "@/components/shop-section"
 import { StatementSection } from "@/components/statement-section"
 import { LookbookSection } from "@/components/lookbook-section"
@@ -18,6 +19,11 @@ import { WishlistDrawer } from "@/components/wishlist-drawer"
 import { SizingGuideModal } from "@/components/sizing-guide-modal"
 import { ShippingInfoModal } from "@/components/shipping-info-modal"
 import { CareGuideModal } from "@/components/care-guide-modal"
+import { FAQModal } from "@/components/faq-modal"
+import { PrivacyPolicyModal } from "@/components/privacy-policy-modal"
+import { TermsModal } from "@/components/terms-modal"
+import { TrackOrderModal } from "@/components/track-order-modal"
+import { CustomerSupportModal } from "@/components/customer-support-modal"
 import { CheckoutModal } from "@/components/checkout-modal"
 import { Toast } from "@/components/toast"
 import { type Product } from "@/lib/products"
@@ -30,6 +36,11 @@ export function PageWrapper() {
   const [isSizingGuideOpen, setIsSizingGuideOpen] = useState(false)
   const [isShippingInfoOpen, setIsShippingInfoOpen] = useState(false)
   const [isCareGuideOpen, setIsCareGuideOpen] = useState(false)
+  const [isFAQOpen, setIsFAQOpen] = useState(false)
+  const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false)
+  const [isTermsOpen, setIsTermsOpen] = useState(false)
+  const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false)
+  const [isCustomerSupportOpen, setIsCustomerSupportOpen] = useState(false)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [checkoutProductId, setCheckoutProductId] = useState<string | null>(null)
 
@@ -135,12 +146,8 @@ export function PageWrapper() {
       <main>
         <HeroSection />
         <Marquee />
-        <ShopSection
-          onAddToCart={addToCart}
-          onToggleWishlist={toggleWishlist}
-          isInWishlist={isInWishlist}
-          onBuyNow={handleBuyNow}
-        />
+        <TrendingSection />
+        <ShopSection />
         <StatementSection />
         <LookbookSection />
         <TrustSection />
@@ -149,7 +156,16 @@ export function PageWrapper() {
         <ContactSection />
       </main>
 
-      <Footer />
+      <Footer
+        onOpenSizingGuide={() => setIsSizingGuideOpen(true)}
+        onOpenShippingInfo={() => setIsShippingInfoOpen(true)}
+        onOpenCareGuide={() => setIsCareGuideOpen(true)}
+        onOpenFAQ={() => setIsFAQOpen(true)}
+        onOpenPrivacyPolicy={() => setIsPrivacyPolicyOpen(true)}
+        onOpenTerms={() => setIsTermsOpen(true)}
+        onOpenTrackOrder={() => setIsTrackOrderOpen(true)}
+        onOpenCustomerSupport={() => setIsCustomerSupportOpen(true)}
+      />
 
       {/* Overlays & Modals */}
       <SearchOverlay
@@ -194,6 +210,31 @@ export function PageWrapper() {
       <CareGuideModal
         isOpen={isCareGuideOpen}
         onClose={() => setIsCareGuideOpen(false)}
+      />
+
+      <FAQModal
+        isOpen={isFAQOpen}
+        onClose={() => setIsFAQOpen(false)}
+      />
+
+      <PrivacyPolicyModal
+        isOpen={isPrivacyPolicyOpen}
+        onClose={() => setIsPrivacyPolicyOpen(false)}
+      />
+
+      <TermsModal
+        isOpen={isTermsOpen}
+        onClose={() => setIsTermsOpen(false)}
+      />
+
+      <TrackOrderModal
+        isOpen={isTrackOrderOpen}
+        onClose={() => setIsTrackOrderOpen(false)}
+      />
+
+      <CustomerSupportModal
+        isOpen={isCustomerSupportOpen}
+        onClose={() => setIsCustomerSupportOpen(false)}
       />
 
       {checkoutProductId && (

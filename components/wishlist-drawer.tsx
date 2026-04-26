@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { X, Trash2, ShoppingBag } from "lucide-react"
 import { type Product } from "@/lib/products"
-import { RingSVG, NecklaceSVG, EarringSVG, BraceletSVG } from "./jewelry-svgs"
+import { RingSvg, NecklaceSvg, EarringsSvg, BraceletSvg } from "./jewelry-svgs"
 
 interface WishlistDrawerProps {
   isOpen: boolean
@@ -37,15 +37,15 @@ export function WishlistDrawer({
   const getProductSVG = (category: string) => {
     switch (category) {
       case "rings":
-        return <RingSVG className="w-full" />
+        return <RingSvg className="w-full" />
       case "necklaces":
-        return <NecklaceSVG className="w-full" />
+        return <NecklaceSvg className="w-full" />
       case "earrings":
-        return <EarringSVG className="w-full" />
+        return <EarringsSvg className="w-full" />
       case "bracelets":
-        return <BraceletSVG className="w-full" />
+        return <BraceletSvg className="w-full" />
       default:
-        return <RingSVG className="w-full" />
+        return <RingSvg className="w-full" />
     }
   }
 

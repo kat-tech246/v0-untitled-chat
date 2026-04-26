@@ -216,13 +216,13 @@ export function Navigation({
         {/* Left - Hamburger Menu Button */}
         <div className="flex items-center gap-6">
           <button
-            onClick={() => setIsMenuOpen(true)}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="relative w-8 h-8 flex flex-col items-center justify-center gap-[6px] group bg-transparent border-none"
-            aria-label="Open menu"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
-            <span className="block w-6 h-[1px] bg-wine-deep transition-all duration-300 group-hover:w-5 group-hover:translate-x-[2px]" />
-            <span className="block w-6 h-[1px] bg-wine-deep transition-all duration-300" />
-            <span className="block w-6 h-[1px] bg-wine-deep transition-all duration-300 group-hover:w-5 group-hover:-translate-x-[2px]" />
+            <span className={`block w-6 h-[1px] bg-wine-deep transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-[7px]" : "group-hover:w-5 group-hover:translate-x-[2px]"}`} />
+            <span className={`block w-6 h-[1px] bg-wine-deep transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-6 h-[1px] bg-wine-deep transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-[7px]" : "group-hover:w-5 group-hover:-translate-x-[2px]"}`} />
           </button>
 
           {/* Help Dropdown - Desktop only */}

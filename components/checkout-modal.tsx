@@ -8,9 +8,10 @@ import { PRODUCTS, formatPrice } from '@/lib/products'
 interface CheckoutModalProps {
   productId: string | null
   onClose: () => void
+  isOpen?: boolean
 }
 
-export function CheckoutModal({ productId, onClose }: CheckoutModalProps) {
+export function CheckoutModal({ productId, onClose, isOpen = true }: CheckoutModalProps) {
   const product = productId ? PRODUCTS.find(p => p.id === productId) : null
 
   const handleEscape = useCallback((e: KeyboardEvent) => {
@@ -28,7 +29,7 @@ export function CheckoutModal({ productId, onClose }: CheckoutModalProps) {
     }
   }, [productId, handleEscape])
 
-  if (!productId || !product) return null
+  if (!isOpen || !productId || !product) return null
 
   return (
     <div 

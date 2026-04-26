@@ -1,37 +1,35 @@
+"use client"
+
 import Link from "next/link"
 
-const footerLinks = {
-  collection: [
-    { label: "Necklaces", href: "#" },
-    { label: "Rings", href: "#" },
-    { label: "Earrings", href: "#" },
-    { label: "Bracelets", href: "#" },
-    { label: "New Arrivals", href: "#" },
-  ],
-  information: [
-    { label: "Our Story", href: "#about" },
-    { label: "Sustainability", href: "#" },
-    { label: "Stone Guide", href: "#" },
-    { label: "Care Instructions", href: "#" },
-    { label: "Press", href: "#" },
-  ],
-  support: [
-    { label: "Shipping & Returns", href: "#" },
-    { label: "Sizing Guide", href: "#" },
-    { label: "FAQ", href: "#" },
-    { label: "Contact", href: "#contact" },
-    { label: "Custom Orders", href: "#" },
-  ],
+interface FooterProps {
+  onOpenSizingGuide?: () => void
+  onOpenShippingInfo?: () => void
+  onOpenCareGuide?: () => void
+  onOpenFAQ?: () => void
+  onOpenPrivacyPolicy?: () => void
+  onOpenTerms?: () => void
+  onOpenTrackOrder?: () => void
+  onOpenCustomerSupport?: () => void
 }
 
 const socials = [
-  { label: "Ig", href: "#" },
-  { label: "Tk", href: "#" },
-  { label: "Pt", href: "#" },
-  { label: "Fb", href: "#" },
+  { label: "Ig", href: "https://instagram.com" },
+  { label: "Tk", href: "https://tiktok.com" },
+  { label: "Pt", href: "https://pinterest.com" },
+  { label: "Fb", href: "https://facebook.com" },
 ]
 
-export function Footer() {
+export function Footer({
+  onOpenSizingGuide,
+  onOpenShippingInfo,
+  onOpenCareGuide,
+  onOpenFAQ,
+  onOpenPrivacyPolicy,
+  onOpenTerms,
+  onOpenTrackOrder,
+  onOpenCustomerSupport,
+}: FooterProps) {
   return (
     <footer className="bg-wine-deep py-20 md:py-20 px-6 md:px-14">
       <div className="max-w-[1200px] mx-auto">
@@ -40,39 +38,41 @@ export function Footer() {
           {/* Brand */}
           <div>
             <span className="font-serif italic font-light text-[2.2rem] text-ivory block mb-3">
-              Azurél
+              Azurel
             </span>
-            <p className="text-[0.4rem] tracking-[2px] text-blue-lt/20 leading-[1.9] mb-6">
+            <p className="text-[0.55rem] tracking-[2px] text-blue-lt/40 leading-[1.9] mb-6">
               Fine jewellery crafted in Vienna.
               <br />
               Moissanite · Zirconium · 18K Gold Plated.
             </p>
             <div className="flex gap-2.5">
               {socials.map((social) => (
-                <Link
+                <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-8 h-8 border-[0.5px] border-blue-lt/[0.12] flex items-center justify-center text-blue-lt/25 text-[0.5rem] font-sans hover:border-blue-lt hover:text-blue-lt transition-all"
                 >
                   {social.label}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
 
           {/* Collection Links */}
           <div>
-            <span className="text-[0.38rem] tracking-[4px] uppercase text-blue-lt/[0.22] block mb-4">
+            <span className="text-[0.42rem] tracking-[4px] uppercase text-blue-lt/[0.25] block mb-4">
               Collection
             </span>
             <ul className="flex flex-col gap-2.5">
-              {footerLinks.collection.map((link) => (
-                <li key={link.label}>
+              {["Necklaces", "Rings", "Earrings", "Bracelets", "New Arrivals"].map((label) => (
+                <li key={label}>
                   <Link
-                    href={link.href}
-                    className="font-serif italic text-[0.9rem] font-light text-blue-lt/30 hover:text-blue-lt transition-colors"
+                    href="/#shop"
+                    className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
                   >
-                    {link.label}
+                    {label}
                   </Link>
                 </li>
               ))}
@@ -81,58 +81,127 @@ export function Footer() {
 
           {/* Information Links */}
           <div>
-            <span className="text-[0.38rem] tracking-[4px] uppercase text-blue-lt/[0.22] block mb-4">
+            <span className="text-[0.42rem] tracking-[4px] uppercase text-blue-lt/[0.25] block mb-4">
               Information
             </span>
             <ul className="flex flex-col gap-2.5">
-              {footerLinks.information.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="font-serif italic text-[0.9rem] font-light text-blue-lt/30 hover:text-blue-lt transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/#about"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  Our Story
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenCareGuide}
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
+                >
+                  Jewellery Care
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenSizingGuide}
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
+                >
+                  Sizing Guide
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenShippingInfo}
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
+                >
+                  Sustainability
+                </button>
+              </li>
+              <li>
+                <Link
+                  href="/#contact"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  Press
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Support Links */}
           <div>
-            <span className="text-[0.38rem] tracking-[4px] uppercase text-blue-lt/[0.22] block mb-4">
+            <span className="text-[0.42rem] tracking-[4px] uppercase text-blue-lt/[0.25] block mb-4">
               Support
             </span>
             <ul className="flex flex-col gap-2.5">
-              {footerLinks.support.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="font-serif italic text-[0.9rem] font-light text-blue-lt/30 hover:text-blue-lt transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <button
+                  onClick={onOpenShippingInfo}
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
+                >
+                  Shipping &amp; Returns
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenTrackOrder}
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
+                >
+                  Track My Order
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenFAQ}
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
+                >
+                  FAQ
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenCustomerSupport}
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
+                >
+                  Customer Support
+                </button>
+              </li>
+              <li>
+                <Link
+                  href="/#contact"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-3.5 text-center">
-          <span className="text-[0.35rem] tracking-[2px] text-blue-lt/[0.14]">
-            © 2025 Azurél Fine Jewellery · Vienna, Austria · All rights reserved
+          <span className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2]">
+            © 2025 Azurel Fine Jewellery · Vienna, Austria · All rights reserved
           </span>
           <div className="flex gap-5">
-            {["Privacy Policy", "Terms", "Cookies"].map((item) => (
-              <Link
-                key={item}
-                href="#"
-                className="text-[0.35rem] tracking-[2px] text-blue-lt/[0.14] hover:text-blue-lt/40 transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
+            <button
+              onClick={onOpenPrivacyPolicy}
+              className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
+            >
+              Privacy Policy
+            </button>
+            <button
+              onClick={onOpenTerms}
+              className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
+            >
+              Terms
+            </button>
+            <button
+              onClick={onOpenPrivacyPolicy}
+              className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
+            >
+              Cookies
+            </button>
           </div>
         </div>
       </div>
