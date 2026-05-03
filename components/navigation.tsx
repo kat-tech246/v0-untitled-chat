@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Search, Heart, ShoppingBag, Ruler, Truck, Sparkles, HelpCircle, ChevronDown } from "lucide-react"
 import { useLanguage } from "@/lib/language-context"
-import { LanguageSwitcher } from "./language-switcher"
 
 interface NavigationProps {
   cartCount: number
@@ -27,7 +26,7 @@ export function Navigation({
   onOpenShippingInfo,
   onOpenCareGuide,
 }: NavigationProps) {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isHelpOpen, setIsHelpOpen] = useState(false)
@@ -69,24 +68,23 @@ export function Navigation({
   ]
 
   const helpLabels: Record<string, { en: string; de: string; ru: string }> = {
-    sizingGuide: { en: "Sizing Guide", de: "Größenguide", ru: "Руководство по размерам" },
+    sizingGuide: { en: "Sizing Guide", de: "Größenguide", ru: "Размеры" },
     shippingReturns: { en: "Shipping & Returns", de: "Versand & Rückgabe", ru: "Доставка и возврат" },
     jewelleryCare: { en: "Jewellery Care", de: "Schmuckpflege", ru: "Уход за украшениями" },
     sizingDesc: { en: "Find your perfect fit", de: "Finde deine perfekte Größe", ru: "Найдите идеальный размер" },
-    shippingDesc: { en: "Free worldwide delivery", de: "Kostenloser weltweiter Versand", ru: "Бесплатная доставка по всему миру" },
-    careDesc: { en: "Keep your pieces radiant", de: "Halte deine Stücke strahlend", ru: "Сохраняйте ваши украшения сияющими" },
+    shippingDesc: { en: "Free worldwide delivery", de: "Kostenloser weltweiter Versand", ru: "Бесплатная доставка" },
+    careDesc: { en: "Keep your pieces radiant", de: "Halte deine Stücke strahlend", ru: "Сохраняйте сияние" },
     help: { en: "Help", de: "Hilfe", ru: "Помощь" },
     quickLinks: { en: "Quick Links", de: "Schnellzugriff", ru: "Быстрые ссылки" },
     visitAtelier: { en: "Visit Our Atelier", de: "Besuche unser Atelier", ru: "Посетите наше ателье" },
     contactLabel: { en: "Contact", de: "Kontakt", ru: "Контакт" },
     hoursLabel: { en: "Hours", de: "Öffnungszeiten", ru: "Часы работы" },
     mondaySaturday: { en: "Monday - Saturday: 10:00 - 19:00", de: "Montag - Samstag: 10:00 - 19:00", ru: "Понедельник - Суббота: 10:00 - 19:00" },
-    sundayAppt: { en: "Sunday: By Appointment", de: "Sonntag: Nach Vereinbarung", ru: "Воскресенье: По предварительной записи" },
-    tagline: { en: "Fine Jewellery - Vienna - Since 2025", de: "Feiner Schmuck - Wien - Seit 2025", ru: "Ювелирные украшения - Вена - С 2025" },
+    sundayAppt: { en: "Sunday: By Appointment", de: "Sonntag: Nach Vereinbarung", ru: "Воскресенье: По записи" },
+    tagline: { en: "Fine Jewellery · Vienna · Since 2025", de: "Feiner Schmuck · Wien · Seit 2025", ru: "Ювелирные украшения · Вена · С 2025" },
   }
 
   const getHelpLabel = (key: string) => {
-    const { language } = useLanguage()
     return helpLabels[key]?.[language] || key
   }
 
@@ -251,11 +249,6 @@ export function Navigation({
             <span className={`block w-6 h-[1px] bg-wine-deep transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`} />
             <span className={`block w-6 h-[1px] bg-wine-deep transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-[7px]" : "group-hover:w-5 group-hover:-translate-x-[2px]"}`} />
           </button>
-
-          {/* Language Switcher - Desktop */}
-          <div className="hidden md:block">
-            <LanguageSwitcher />
-          </div>
 
           {/* Help Dropdown - Desktop only */}
           <div className="hidden lg:block relative">

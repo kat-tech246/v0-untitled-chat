@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useLanguage } from "@/lib/language-context"
+import { regions, languageShortNames } from "@/lib/translations"
 
 interface FooterProps {
   onOpenSizingGuide?: () => void
@@ -13,6 +14,7 @@ interface FooterProps {
   onOpenTerms?: () => void
   onOpenTrackOrder?: () => void
   onOpenCustomerSupport?: () => void
+  onOpenRegionSelector?: () => void
 }
 
 const socials = [
@@ -32,8 +34,12 @@ export function Footer({
   onOpenTerms,
   onOpenTrackOrder,
   onOpenCustomerSupport,
+  onOpenRegionSelector,
 }: FooterProps) {
-  const { t } = useLanguage()
+  const { t, language, region } = useLanguage()
+
+  const currentRegionName = regions[region].name
+  const currentLangShort = languageShortNames[language]
 
   return (
     <footer className="bg-wine-deep py-20 md:py-20 px-6 md:px-14">
@@ -212,11 +218,12 @@ export function Footer({
         </div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-3.5 text-center">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center">
           <span className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2]">
-            © 2025 Azurél Fine Jewellery · Vienna, Austria · All rights reserved
+            © 2025 Azurél Fine Jewellery · Vienna, Austria
           </span>
-          <div className="flex gap-5">
+          
+          <div className="flex flex-wrap justify-center gap-5">
             <button
               onClick={onOpenPrivacyPolicy}
               className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
@@ -234,6 +241,14 @@ export function Footer({
               className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
             >
               {t("footer", "cookies")}
+            </button>
+            
+            {/* Region & Language Link - Cartier Style */}
+            <button
+              onClick={onOpenRegionSelector}
+              className="text-[0.42rem] tracking-[2px] uppercase text-blue-lt/[0.35] hover:text-blue-lt/60 transition-colors bg-transparent border-none p-0"
+            >
+              {currentRegionName} · {currentLangShort}
             </button>
           </div>
         </div>
