@@ -162,8 +162,8 @@ export const translations = {
         "Dies ist Schmuck für Menschen, die wissen, was sie mögen — und ihn ohne Umstände tragen.",
       ],
       ru: [
-        "Украшения всегда считались чем-то заработанным. Знаковым подарком. ��ля той версии себя, которая ещё впереди. Нам всегда казалось это немного грустным.",
-        "Azurél был основан в Вене в 2026 году с простой идеей: красивые украшения должны быть частью вашего стиля — а не наградой, которую нужно заслужить. То, к чему тянешься в обычный вторник. То, что делает простой день немного особенным.",
+        "Украшения всегда считались чем-то заработанным. Знаковым подарком. Для той версии себя, которая ещё впереди. Нам всегда казалось это немного грустным.",
+        "Azurel был основан в Вене в 2026 году с простой идеей: красивые украшения должны быть частью вашего стиля, а не наградой, которую нужно заслужить. То, к чему тянешься в обычный вторник. То, что делает простой день немного особенным.",
         "Мы работаем с муассанитом и цирконием — камнями, выбранными за их блеск, этичность и красоту. Линия с лабораторными бриллиантами появится позже. Философия останется той же.",
         "Это украшения для тех, кто знает свой вкус и носит то, что нравится — без лишних поводов.",
       ],
@@ -311,6 +311,27 @@ export const translations = {
     ringSize: { en: 'Ring Size', de: 'Ringgröße', ru: 'Размер кольца' },
     style: { en: 'Style', de: 'Stil', ru: 'Стиль' },
     size: { en: 'Size', de: 'Größe', ru: 'Размер' },
+    // Earring styles
+    studs: { en: 'Studs', de: 'Ohrstecker', ru: 'Гвоздики' },
+    drop: { en: 'Drop', de: 'Tropfen', ru: 'Подвесные' },
+    hoops: { en: 'Hoops', de: 'Creolen', ru: 'Кольца' },
+    // Bracelet sizes
+    sizeS: { en: 'S (15cm)', de: 'S (15cm)', ru: 'S (15см)' },
+    sizeM: { en: 'M (17cm)', de: 'M (17cm)', ru: 'M (17см)' },
+    sizeL: { en: 'L (19cm)', de: 'L (19cm)', ru: 'L (19см)' },
+    // Earring style descriptions
+    studsDesc: { en: 'Classic, close to the ear', de: 'Klassisch, nah am Ohr', ru: 'Классические, близко к уху' },
+    dropDesc: { en: 'Dangle below the earlobe', de: 'Hängen unter dem Ohrläppchen', ru: 'Свисают ниже мочки' },
+    hoopsDesc: { en: 'Circular design, various sizes available', de: 'Rundes Design, verschiedene Größen', ru: 'Круглые, разные размеры' },
+    // Chain lengths
+    chain40: { en: 'Sits at the base of neck (choker style)', de: 'Am Halsansatz (Choker-Stil)', ru: 'На основании шеи (чокер)' },
+    chain45: { en: 'Sits at the collarbone (classic length)', de: 'Am Schlüsselbein (klassische Länge)', ru: 'На ключице (классическая длина)' },
+    chain50: { en: 'Falls below collarbone (versatile)', de: 'Unter dem Schlüsselbein (vielseitig)', ru: 'Ниже ключицы (универсальная)' },
+    chain55: { en: 'Falls at chest level (statement)', de: 'Auf Brusthöhe (Statement)', ru: 'На уровне груди (statement)' },
+    // Bracelet sizes descriptions
+    braceletS: { en: 'Petite wrist (13-14cm circumference)', de: 'Zierliches Handgelenk (13-14cm)', ru: 'Тонкое запястье (13-14см)' },
+    braceletM: { en: 'Average wrist (15-16cm circumference)', de: 'Durchschnittliches Handgelenk (15-16cm)', ru: 'Среднее запястье (15-16см)' },
+    braceletL: { en: 'Larger wrist (17-18cm circumference)', de: 'Größeres Handgelenk (17-18cm)', ru: 'Широкое запястье (17-18см)' },
   },
 
   // MARQUEE
