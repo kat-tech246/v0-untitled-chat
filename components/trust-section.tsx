@@ -2,32 +2,30 @@
 
 import { useEffect, useRef } from "react"
 import { Star, CheckCircle, Package, ShoppingBag } from "lucide-react"
-
-const trustItems = [
-  {
-    Icon: Star,
-    title: "Moissanite & Zirconium",
-    description: "Conflict-free stones with diamond-like brilliance. Ethically sourced, brilliantly set.",
-  },
-  {
-    Icon: CheckCircle,
-    title: "18K Gold Plated",
-    description: "Premium plating applied with precision. Lasting beauty for every single day.",
-  },
-  {
-    Icon: Package,
-    title: "Vienna Atelier",
-    description: "Every Azurél piece is designed and hand-finished in our Viennese studio.",
-  },
-  {
-    Icon: ShoppingBag,
-    title: "30-Day Returns",
-    description: "Love it or return it — free of charge within Austria, no questions asked.",
-  },
-]
+import { useLanguage } from "@/lib/language-context"
 
 export function TrustSection() {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLDivElement>(null)
+
+  const trustItems = [
+    {
+      Icon: Star,
+      titleKey: "moissanite" as const,
+    },
+    {
+      Icon: CheckCircle,
+      titleKey: "gold" as const,
+    },
+    {
+      Icon: Package,
+      titleKey: "vienna" as const,
+    },
+    {
+      Icon: ShoppingBag,
+      titleKey: "returns" as const,
+    },
+  ]
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,10 +62,10 @@ export function TrustSection() {
                 strokeWidth={1.2}
               />
               <span className="font-serif italic text-base text-wine block mb-2">
-                {item.title}
+                {t("pillars", `${item.titleKey}.title`)}
               </span>
               <p className="text-[0.4rem] tracking-[1px] text-blue-mid leading-[1.85]">
-                {item.description}
+                {t("pillars", `${item.titleKey}.desc`)}
               </p>
             </div>
           ))}

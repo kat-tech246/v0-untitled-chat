@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { X } from "lucide-react"
 import { PRODUCTS, type Product } from "@/lib/products"
 import { RingSvg, NecklaceSvg, EarringsSvg, BraceletSvg } from "./jewelry-svgs"
+import { useLanguage } from "@/lib/language-context"
 
 interface SearchOverlayProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface SearchOverlayProps {
 }
 
 export function SearchOverlay({ isOpen, onClose, onProductClick }: SearchOverlayProps) {
+  const { t, language } = useLanguage()
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<Product[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
@@ -65,6 +67,18 @@ export function SearchOverlay({ isOpen, onClose, onProductClick }: SearchOverlay
     }
   }
 
+  const getSearchPrompt = () => {
+    if (language === "ru") return "Что вы ищете?"
+    if (language === "de") return "Wonach suchen Sie?"
+    return "What are you looking for?"
+  }
+
+  const getNoResultsText = () => {
+    if (language === "ru") return `Ничего не найдено по запросу "${query}"`
+    if (language === "de") return `Keine Ergebnisse für "${query}"`
+    return `No pieces found for "${query}"`
+  }
+
   if (!isOpen) return null
 
   return (
@@ -72,21 +86,21 @@ export function SearchOverlay({ isOpen, onClose, onProductClick }: SearchOverlay
       <button
         onClick={onClose}
         className="absolute top-6 right-8 bg-transparent border-none text-blue-mid hover:text-wine transition-colors text-2xl"
-        aria-label="Close search"
+        aria-label={t("misc", "close")}
       >
         <X className="w-6 h-6" strokeWidth={1.5} />
       </button>
 
       <div className="w-full max-w-[600px]">
         <span className="text-[0.42rem] tracking-[4px] uppercase text-blue-mid block mb-4">
-          What are you looking for?
+          {getSearchPrompt()}
         </span>
         <input
           ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search pieces..."
+          placeholder={t("misc", "searchPlaceholder")}
           className="w-full font-serif italic text-3xl text-wine bg-transparent border-none border-b border-blue-mid/30 outline-none py-3 focus:border-blue-mid transition-colors placeholder:text-blue-mid/50"
         />
 
@@ -117,7 +131,7 @@ export function SearchOverlay({ isOpen, onClose, onProductClick }: SearchOverlay
 
         {query.trim() !== "" && results.length === 0 && (
           <p className="mt-8 text-center font-serif italic text-blue-mid">
-            No pieces found for &ldquo;{query}&rdquo;
+            {getNoResultsText()}
           </p>
         )}
       </div>

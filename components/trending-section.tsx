@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ArrowRight, TrendingUp, Heart, ShoppingBag } from "lucide-react"
 import { NecklaceSvg, RingSvg, EarringsSvg, BraceletSvg, ChokerSvg, StackRingSvg } from "./jewelry-svgs"
 import { PRODUCTS, formatPrice, type Product } from "@/lib/products"
+import { useLanguage } from "@/lib/language-context"
 
 const trendingProducts = PRODUCTS.filter(p => p.badge === "New" || p.badge === "Bestseller").slice(0, 3)
 
@@ -40,6 +41,7 @@ export function TrendingSection({
   onToggleWishlist,
   wishlistItems = []
 }: TrendingSectionProps) {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -73,18 +75,18 @@ export function TrendingSection({
             <div className="flex items-center gap-2 mb-3">
               <TrendingUp className="w-4 h-4 text-blue-lt/60" strokeWidth={1.5} />
               <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-blue-lt/60">
-                Trending Now
+                {t("trending", "trendingNow")}
               </span>
             </div>
             <h2 className="font-serif italic font-light text-[clamp(1.8rem,3.5vw,2.5rem)] text-ivory leading-[1.1]">
-              Most Loved This Season
+              {t("trending", "mostLoved")}
             </h2>
           </div>
           <Link
             href="/#shop"
             className="flex items-center gap-2 text-[0.42rem] tracking-[3px] uppercase text-blue-lt/70 hover:text-ivory transition-colors group"
           >
-            View All
+            {t("trending", "viewAll")}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
           </Link>
         </div>
@@ -106,7 +108,7 @@ export function TrendingSection({
                   {/* Badge */}
                   {product.badge && (
                     <div className="absolute top-4 left-4 bg-wine text-ivory text-[0.32rem] tracking-[2px] uppercase px-3 py-1.5 z-10">
-                      {product.badge}
+                      {product.badge === "New" ? t("collection", "new") : t("collection", "bestseller")}
                     </div>
                   )}
 
@@ -148,13 +150,13 @@ export function TrendingSection({
                       className="flex-1 flex items-center justify-center gap-1.5 text-[0.38rem] tracking-[2px] uppercase py-2.5 border border-wine bg-transparent text-wine hover:bg-wine/5 transition-colors"
                     >
                       <ShoppingBag className="w-3 h-3" strokeWidth={1.5} />
-                      Add to Bag
+                      {t("trending", "addToBag")}
                     </button>
                     <Link 
                       href={`/product/${product.id}`}
                       className="flex-1 text-[0.38rem] tracking-[2px] uppercase py-2.5 border border-wine bg-wine text-ivory hover:bg-wine-deep text-center transition-colors"
                     >
-                      View Details
+                      {t("trending", "viewDetails")}
                     </Link>
                   </div>
                 </div>
@@ -162,7 +164,7 @@ export function TrendingSection({
                 {/* Product Info */}
                 <Link href={`/product/${product.id}`} className="block text-center">
                   <span className="text-[0.4rem] tracking-[2px] uppercase text-blue-lt/50 block mb-1">
-                    {product.category}
+                    {t("categories", product.category as "necklaces" | "rings" | "earrings" | "bracelets")}
                   </span>
                   <span className="font-serif italic text-xl text-ivory block mb-2 group-hover:text-blue-lt transition-colors">
                     {product.name}
@@ -179,13 +181,13 @@ export function TrendingSection({
         {/* CTA */}
         <div className="sr text-center mt-14">
           <p className="font-serif italic text-lg text-ivory/80 mb-6">
-            Discover what everyone is wearing this season
+            {t("trending", "discover")}
           </p>
           <Link
             href="/#shop"
             className="inline-block text-[0.42rem] tracking-[4px] uppercase text-wine-deep bg-ivory px-10 py-4 hover:bg-blue-lt transition-colors"
           >
-            Explore Collection
+            {t("trending", "exploreCollection")}
           </Link>
         </div>
       </div>

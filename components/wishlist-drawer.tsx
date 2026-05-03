@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { X, Trash2, ShoppingBag } from "lucide-react"
 import { type Product } from "@/lib/products"
 import { RingSvg, NecklaceSvg, EarringsSvg, BraceletSvg } from "./jewelry-svgs"
+import { useLanguage } from "@/lib/language-context"
 
 interface WishlistDrawerProps {
   isOpen: boolean
@@ -20,6 +21,8 @@ export function WishlistDrawer({
   onRemoveItem,
   onAddToCart,
 }: WishlistDrawerProps) {
+  const { t, language } = useLanguage()
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
@@ -49,6 +52,24 @@ export function WishlistDrawer({
     }
   }
 
+  const getPiecesText = (count: number) => {
+    if (language === "ru") {
+      if (count === 1) return "украшение сохранено"
+      if (count >= 2 && count <= 4) return "украшения сохранено"
+      return "украшений сохранено"
+    }
+    if (language === "de") {
+      return count === 1 ? "Stück gespeichert" : "Stücke gespeichert"
+    }
+    return count === 1 ? "piece saved" : "pieces saved"
+  }
+
+  const getContinueText = () => {
+    if (language === "ru") return "Продолжить покупки"
+    if (language === "de") return "Weiter einkaufen"
+    return "Continue Shopping"
+  }
+
   return (
     <>
       {/* Overlay */}
@@ -67,7 +88,7 @@ export function WishlistDrawer({
       >
         {/* Header */}
         <div className="flex justify-between items-center px-7 py-6 border-b border-blue-mid/20">
-          <span className="font-serif italic text-xl text-wine">Your Wishlist</span>
+          <span className="font-serif italic text-xl text-wine">{t("cart", "yourWishlist")}</span>
           <button
             onClick={onClose}
             className="bg-transparent border-none text-blue-mid hover:text-wine transition-colors"
@@ -82,16 +103,16 @@ export function WishlistDrawer({
           {items.length === 0 ? (
             <div className="text-center py-16">
               <p className="font-serif italic text-lg text-blue-mid mb-5">
-                Your wishlist is empty.
+                {t("cart", "yourWishlistEmpty")}
               </p>
               <p className="text-[0.4rem] tracking-[1px] text-blue-mid/70 mb-6 leading-relaxed">
-                Save your favorite pieces by clicking the heart icon on any product.
+                {t("cart", "saveHeart")}
               </p>
               <button
                 onClick={onClose}
                 className="text-[0.46rem] font-light tracking-[4px] uppercase text-ivory bg-wine border border-wine px-9 py-4 hover:bg-wine-deep hover:border-wine-deep transition-all"
               >
-                Explore Collection
+                {t("cart", "exploreCollection")}
               </button>
             </div>
           ) : (
@@ -109,7 +130,7 @@ export function WishlistDrawer({
                       {item.name}
                     </span>
                     <span className="text-[0.38rem] tracking-[3px] uppercase text-blue-mid block mb-1">
-                      {item.category}
+                      {t("categories", item.category as "necklaces" | "rings" | "earrings" | "bracelets")}
                     </span>
                     <span className="text-[0.4rem] tracking-[2px] text-blue-deep">
                       {"\u20AC"} {(item.priceInCents / 100).toLocaleString()}
@@ -146,13 +167,13 @@ export function WishlistDrawer({
         {items.length > 0 && (
           <div className="px-7 py-6 border-t border-blue-mid/20">
             <p className="text-[0.38rem] tracking-[3px] uppercase text-blue-mid text-center mb-4">
-              {items.length} {items.length === 1 ? "piece" : "pieces"} saved
+              {items.length} {getPiecesText(items.length)}
             </p>
             <button
               onClick={onClose}
               className="w-full py-3 bg-transparent border border-wine text-wine text-[0.42rem] tracking-[3px] uppercase hover:bg-wine hover:text-ivory transition-all"
             >
-              Continue Shopping
+              {getContinueText()}
             </button>
           </div>
         )}

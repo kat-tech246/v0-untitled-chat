@@ -2,8 +2,10 @@
 
 import { useEffect, useRef } from "react"
 import { SmallGemSvg } from "./jewelry-svgs"
+import { useLanguage } from "@/lib/language-context"
 
 export function StatementSection() {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -46,15 +48,11 @@ export function StatementSection() {
       <div className="sr relative z-[2] max-w-[680px] mx-auto">
         <SmallGemSvg className="w-[26px] mx-auto mb-8" />
         <p className="font-serif italic font-light text-[clamp(1.6rem,3vw,2.5rem)] text-ivory leading-[1.55] mb-7">
-          {'"'}Jewellery is not decoration.
-          <br />
-          It is the armour a woman chooses
-          <br />
-          to face the world in.{'"'}
+          {'"'}{t("quote", "text")}{'"'}
         </p>
         <div className="w-9 h-[0.5px] bg-blue-lt/25 mx-auto mb-4" />
         <span className="text-[0.4rem] tracking-[5px] uppercase text-blue-lt/30">
-          Azurél · Fine Jewellery · Vienna · Est. 2025
+          Azurél · Fine Jewellery · Vienna · Est. 2026
         </span>
       </div>
     </div>
