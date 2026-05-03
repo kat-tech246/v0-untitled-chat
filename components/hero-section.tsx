@@ -86,14 +86,14 @@ export function HeroSection() {
 
           {/* Headline */}
           <h1 className="font-serif italic font-light text-[clamp(2.8rem,5.2vw,5rem)] text-wine leading-[1.08] mb-6 animate-fadeUp-delay-1">
-            Where the sky
+            Each Azurél piece is
             <br />
-            meets pearl
+            designed to be worn.
           </h1>
 
           {/* Description */}
           <p className="font-serif font-light text-base text-blue-deep leading-[1.9] max-w-[360px] mb-11 animate-fadeUp-delay-2 mx-auto md:mx-0">
-            Each Azurél piece captures the luminosity of dawn — moissanite, zirconium and 18K gold, crafted in Vienna for women who shine on their own terms.
+            Not saved. Whether layered or worn alone, every piece adapts to your style, not the other way around.
           </p>
 
           {/* Buttons */}

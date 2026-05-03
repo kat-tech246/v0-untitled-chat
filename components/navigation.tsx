@@ -80,7 +80,7 @@ export function Navigation({
               onClick={closeMenu}
               className="font-serif italic font-light text-3xl text-wine tracking-[2px] hover:opacity-65 transition-opacity"
             >
-              Azurel
+              Azurél
             </Link>
 
             {/* Close Button - Animated X */}
@@ -278,7 +278,7 @@ export function Navigation({
           href="#home"
           className="absolute left-1/2 -translate-x-1/2 font-serif italic font-light text-3xl text-wine tracking-[2px] hover:opacity-65 transition-opacity"
         >
-          Azurel
+          Azurél
         </Link>
 
         {/* Right Icons */}
