@@ -113,15 +113,15 @@ export function HeroSection() {
         </div>
 
         {/* Hero Card */}
-        <div className="relative hidden md:flex items-center justify-center animate-fadeIn">
-          {/* Floating Dots */}
-          <div className="absolute w-14 h-14 -top-[18px] -right-[18px] rounded-full border-[0.5px] border-blue-lt/50 animate-float" style={{ background: "radial-gradient(circle, rgba(246,242,234,0.9) 0%, rgba(220,232,240,0.3) 60%, transparent 100%)" }} />
-          <div className="absolute w-[34px] h-[34px] bottom-[90px] -left-[16px] rounded-full border-[0.5px] border-blue-lt/50 animate-float-delay-1" style={{ background: "radial-gradient(circle, rgba(246,242,234,0.9) 0%, rgba(220,232,240,0.3) 60%, transparent 100%)" }} />
-          <div className="absolute w-5 h-5 top-[32%] -right-[28px] rounded-full border-[0.5px] border-blue-lt/50 animate-float-delay-2" style={{ background: "radial-gradient(circle, rgba(246,242,234,0.9) 0%, rgba(220,232,240,0.3) 60%, transparent 100%)" }} />
+        <div className="relative flex items-center justify-center animate-fadeIn order-first md:order-last">
+          {/* Floating Dots - hidden on mobile */}
+          <div className="hidden md:block absolute w-14 h-14 -top-[18px] -right-[18px] rounded-full border-[0.5px] border-blue-lt/50 animate-float" style={{ background: "radial-gradient(circle, rgba(246,242,234,0.9) 0%, rgba(220,232,240,0.3) 60%, transparent 100%)" }} />
+          <div className="hidden md:block absolute w-[34px] h-[34px] bottom-[90px] -left-[16px] rounded-full border-[0.5px] border-blue-lt/50 animate-float-delay-1" style={{ background: "radial-gradient(circle, rgba(246,242,234,0.9) 0%, rgba(220,232,240,0.3) 60%, transparent 100%)" }} />
+          <div className="hidden md:block absolute w-5 h-5 top-[32%] -right-[28px] rounded-full border-[0.5px] border-blue-lt/50 animate-float-delay-2" style={{ background: "radial-gradient(circle, rgba(246,242,234,0.9) 0%, rgba(220,232,240,0.3) 60%, transparent 100%)" }} />
 
           {/* Card */}
           <div
-            className="w-full max-w-[430px] aspect-[3/4] relative overflow-hidden shadow-[0_30px_80px_rgba(90,15,26,0.08)]"
+            className="w-full max-w-[280px] md:max-w-[430px] aspect-[3/4] relative overflow-hidden shadow-[0_30px_80px_rgba(90,15,26,0.08)] rounded-sm"
           >
             {/* Shimmer */}
             <div
