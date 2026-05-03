@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react"
 import Link from "next/link"
-import { CielPendantSvg } from "./jewelry-svgs"
 
 export function HeroSection() {
   const orbsRef = useRef<HTMLDivElement[]>([])
@@ -123,29 +122,21 @@ export function HeroSection() {
           {/* Card */}
           <div
             className="w-full max-w-[430px] aspect-[3/4] relative overflow-hidden shadow-[0_30px_80px_rgba(90,15,26,0.08)]"
-            style={{
-              background: "linear-gradient(145deg, #DCE8F0 0%, rgba(220,232,240,0.6) 40%, #F6F2EA 70%, #EDE8DD 100%)",
-              boxShadow: "0 30px 80px rgba(90,15,26,0.08), 0 1px 0 rgba(255,255,255,0.7) inset",
-            }}
           >
             {/* Shimmer */}
             <div
-              className="absolute inset-0 animate-shimmer"
+              className="absolute inset-0 animate-shimmer z-10 pointer-events-none"
               style={{
                 background: "linear-gradient(108deg, transparent 38%, rgba(255,255,255,0.28) 50%, transparent 62%)",
               }}
             />
 
-            {/* Pendant SVG */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <CielPendantSvg className="w-[62%] drop-shadow-[0_12px_28px_rgba(90,15,26,0.1)]" />
-            </div>
-
-            {/* Card Footer */}
-            <div className="absolute bottom-0 left-0 right-0 bg-ivory/90 backdrop-blur-[10px] border-t border-blue-mid/20 px-5 py-4 flex justify-between items-center">
-              <span className="font-serif italic text-[1.05rem] text-wine">Ciel Pendant</span>
-              <span className="text-[0.44rem] tracking-[2px] text-blue-mid">€ 285</span>
-            </div>
+            {/* Jewelry Image */}
+            <img 
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0086.WEBP-wuGEKLx2VnejNifh8nDCEghk4Dn7oh.webp"
+              alt="Azurél jewelry collection - various pendant charms in gold settings with colorful gemstones"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>
