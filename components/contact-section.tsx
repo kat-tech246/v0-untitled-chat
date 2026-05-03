@@ -1,15 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef, type FormEvent } from "react"
-
-const contactInfo = [
-  { label: "Atelier", value: "Vienna, Austria" },
-  { label: "Email", value: "hello@azurel.at" },
-  { label: "Instagram", value: "@azurel.wien" },
-  { label: "Hours", value: "Mon – Fri · 10:00 – 18:00" },
-]
+import { useLanguage } from "@/lib/language-context"
 
 export function ContactSection() {
+  const { t } = useLanguage()
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
@@ -19,6 +14,13 @@ export function ContactSection() {
     message: "",
   })
   const sectionRef = useRef<HTMLElement>(null)
+
+  const contactInfo = [
+    { labelKey: "atelier", value: "Vienna, Austria" },
+    { labelKey: "email", value: "hello@azurel.at" },
+    { labelKey: "instagram", value: "@azurel.wien" },
+    { labelKey: "hours", value: "Mon – Fri · 10:00 – 18:00" },
+  ]
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -60,18 +62,18 @@ export function ContactSection() {
           {/* Contact Info */}
           <div className="sr">
             <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-blue-mid block mb-3">
-              Get in Touch
+              {t("contact", "getInTouch")}
             </span>
             <h2 className="font-serif italic font-light text-[clamp(2rem,3.8vw,3rem)] text-wine leading-[1.1] mb-11">
-              We&apos;d love
+              {t("contact", "weLove").split(" ").slice(0, 3).join(" ")}
               <br />
-              to hear from you
+              {t("contact", "weLove").split(" ").slice(3).join(" ")}
             </h2>
 
             {contactInfo.map((item, index) => (
               <div key={index} className="mb-7">
                 <span className="text-[0.4rem] tracking-[4px] uppercase text-blue-mid block mb-1">
-                  {item.label}
+                  {t("contact", item.labelKey)}
                 </span>
                 <span className="font-serif italic text-[1.05rem] text-wine font-light">
                   {item.value}
@@ -86,7 +88,7 @@ export function ContactSection() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[0.37rem] tracking-[3px] uppercase text-blue-mid">
-                    First Name
+                    {t("contact", "firstName")}
                   </label>
                   <input
                     type="text"
@@ -101,7 +103,7 @@ export function ContactSection() {
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[0.37rem] tracking-[3px] uppercase text-blue-mid">
-                    Last Name
+                    {t("contact", "lastName")}
                   </label>
                   <input
                     type="text"
@@ -118,7 +120,7 @@ export function ContactSection() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[0.37rem] tracking-[3px] uppercase text-blue-mid">
-                  Email
+                  {t("contact", "email")}
                 </label>
                 <input
                   type="email"
@@ -134,7 +136,7 @@ export function ContactSection() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[0.37rem] tracking-[3px] uppercase text-blue-mid">
-                  Subject
+                  {t("contact", "subject")}
                 </label>
                 <input
                   type="text"
@@ -149,7 +151,7 @@ export function ContactSection() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[0.37rem] tracking-[3px] uppercase text-blue-mid">
-                  Message
+                  {t("contact", "message")}
                 </label>
                 <textarea
                   rows={4}
@@ -170,7 +172,7 @@ export function ContactSection() {
                     : "bg-wine hover:bg-wine-deep hover:shadow-[0_8px_28px_rgba(90,15,26,0.18)] hover:-translate-y-[1px]"
                 }`}
               >
-                {isSubmitted ? "Sent ✦" : "Send Message"}
+                {isSubmitted ? "✦" : t("contact", "sendMessage")}
               </button>
             </form>
           </div>

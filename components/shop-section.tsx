@@ -5,6 +5,7 @@ import { Heart, Eye, ShoppingBag } from "lucide-react"
 import Link from "next/link"
 import { NecklaceSvg, RingSvg, EarringsSvg, BraceletSvg, ChokerSvg, StackRingSvg } from "./jewelry-svgs"
 import { PRODUCTS, formatPrice, type Product } from "@/lib/products"
+import { useLanguage } from "@/lib/language-context"
 
 // Map product IDs to their SVG components
 const productSvgMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -21,8 +22,6 @@ const productSvgMap: Record<string, React.ComponentType<{ className?: string }>>
   'prater-pearl-necklace': NecklaceSvg,
   'klimt-cuff-bracelet': BraceletSvg,
 }
-
-const filters = ["All", "Necklaces", "Rings", "Earrings", "Bracelets"]
 
 const bgStyles: Record<string, string> = {
   "bg-a": "linear-gradient(145deg, #DCE8F0, #E8EFF5)",
@@ -46,15 +45,28 @@ export function ShopSection({
   onBuyNow,
   wishlistItems = []
 }: ShopSectionProps) {
-  const [activeFilter, setActiveFilter] = useState("All")
+  const { t } = useLanguage()
+  const [activeFilter, setActiveFilter] = useState("all")
+
+  const filters = [
+    { key: "all", label: t("categories", "all") },
+    { key: "necklaces", label: t("categories", "necklaces") },
+    { key: "rings", label: t("categories", "rings") },
+    { key: "earrings", label: t("categories", "earrings") },
+    { key: "bracelets", label: t("categories", "bracelets") },
+  ]
+
+  const categoryLabels: Record<string, string> = {
+    necklaces: t("categories", "necklaces"),
+    rings: t("categories", "rings"),
+    earrings: t("categories", "earrings"),
+    bracelets: t("categories", "bracelets"),
+  }
 
   const filteredProducts =
-    activeFilter === "All"
+    activeFilter === "all"
       ? PRODUCTS
-      : PRODUCTS.filter((p) => {
-          const filterCategory = activeFilter.toLowerCase()
-          return p.category === filterCategory
-        })
+      : PRODUCTS.filter((p) => p.category === activeFilter)
 
   const isInWishlist = (productId: string) => {
     return wishlistItems.some(item => item.id === productId)
@@ -67,26 +79,26 @@ export function ShopSection({
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-5 mb-13">
           <div>
             <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-blue-mid block mb-3">
-              The Collection
+              {t("collection", "theCollection")}
             </span>
             <h2 className="font-serif italic font-light text-[clamp(2rem,3.8vw,3rem)] text-wine leading-[1.1]">
-              Each piece,
+              {t("collection", "eachPiece").split(",")[0]},
               <br />
-              a quiet statement
+              {t("collection", "eachPiece").split(",")[1]?.trim() || "a quiet statement"}
             </h2>
           </div>
           <div className="flex gap-1.5 flex-wrap">
             {filters.map((filter) => (
               <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
+                key={filter.key}
+                onClick={() => setActiveFilter(filter.key)}
                 className={`text-[0.4rem] font-extralight tracking-[3px] uppercase px-4 py-[7px] border-[0.5px] transition-all duration-300 ${
-                  activeFilter === filter
+                  activeFilter === filter.key
                     ? "bg-wine border-wine text-ivory"
                     : "bg-transparent border-blue-mid/35 text-blue-mid hover:bg-wine hover:border-wine hover:text-ivory"
                 }`}
               >
-                {filter}
+                {filter.label}
               </button>
             ))}
           </div>
@@ -110,7 +122,7 @@ export function ShopSection({
                   {/* Badge */}
                   {product.badge && (
                     <div className="absolute top-3 left-3 bg-wine text-ivory text-[0.3rem] tracking-[2px] uppercase px-2 py-1 z-10">
-                      {product.badge}
+                      {product.badge === "New" ? t("collection", "new") : t("collection", "bestseller")}
                     </div>
                   )}
 
@@ -147,7 +159,7 @@ export function ShopSection({
                       className="flex-1 flex items-center justify-center gap-1.5 text-[0.36rem] tracking-[2px] uppercase py-2 px-1 border-[0.5px] border-wine bg-transparent text-wine hover:bg-wine/5 transition-colors text-center"
                     >
                       <ShoppingBag className="w-3 h-3" strokeWidth={1.5} />
-                      Add to Bag
+                      {t("trending", "addToBag")}
                     </button>
                     <button 
                       onClick={(e) => {
@@ -157,7 +169,7 @@ export function ShopSection({
                       }}
                       className="flex-1 text-[0.36rem] tracking-[2px] uppercase py-2 px-1 border-[0.5px] border-wine bg-wine text-ivory hover:bg-wine-deep transition-colors text-center"
                     >
-                      Buy Now
+                      {t("collection", "buyNow")}
                     </button>
                   </div>
                 </div>
@@ -165,7 +177,7 @@ export function ShopSection({
                 {/* Product Info */}
                 <Link href={`/product/${product.id}`} className="block px-0.5">
                   <span className="text-[0.38rem] tracking-[3px] uppercase text-blue-mid block mb-1">
-                    {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+                    {categoryLabels[product.category] || product.category}
                   </span>
                   <span className="font-serif italic text-[1.1rem] text-wine block mb-1">
                     {product.name}
@@ -193,10 +205,10 @@ export function ShopSection({
         <div className="text-center mt-14">
           <Link
             href="#shop"
-            onClick={() => setActiveFilter("All")}
+            onClick={() => setActiveFilter("all")}
             className="text-[0.46rem] font-extralight tracking-[4px] uppercase text-ivory bg-wine border-[0.5px] border-wine px-9 py-[15px] inline-block hover:bg-wine-deep hover:border-wine-deep hover:shadow-[0_8px_28px_rgba(90,15,26,0.18)] hover:-translate-y-[1px] transition-all duration-400"
           >
-            View Full Collection
+            {t("collection", "viewFullCollection")}
           </Link>
         </div>
       </div>

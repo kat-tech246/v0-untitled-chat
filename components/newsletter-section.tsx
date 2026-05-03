@@ -1,8 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef, type FormEvent } from "react"
+import { useLanguage } from "@/lib/language-context"
 
 export function NewsletterSection() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -41,15 +43,15 @@ export function NewsletterSection() {
     >
       <div className="sr max-w-[520px] mx-auto text-center px-6">
         <h3 className="font-serif italic font-light text-[2.2rem] text-wine mb-2.5">
-          First access, always.
+          {t("newsletter", "title")}
         </h3>
         <p className="text-[0.42rem] tracking-[1.5px] text-blue-deep leading-[1.9] mb-7">
-          Join the Azurél inner circle — be the first to know about new collections, exclusive events, and pieces made just for you.
+          {t("newsletter", "body")}
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row max-w-[400px] mx-auto">
           <input
             type="email"
-            placeholder="Your email address"
+            placeholder={t("newsletter", "placeholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -61,7 +63,7 @@ export function NewsletterSection() {
               isSubmitted ? "bg-wine-deep" : "bg-wine hover:bg-wine-deep"
             }`}
           >
-            {isSubmitted ? "Thank you ✦" : "Subscribe"}
+            {isSubmitted ? "✦" : t("newsletter", "subscribe")}
           </button>
         </form>
       </div>

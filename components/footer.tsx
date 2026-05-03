@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useLanguage } from "@/lib/language-context"
 
 interface FooterProps {
   onOpenSizingGuide?: () => void
@@ -32,6 +33,8 @@ export function Footer({
   onOpenTrackOrder,
   onOpenCustomerSupport,
 }: FooterProps) {
+  const { t } = useLanguage()
+
   return (
     <footer className="bg-wine-deep py-20 md:py-20 px-6 md:px-14">
       <div className="max-w-[1200px] mx-auto">
@@ -40,12 +43,10 @@ export function Footer({
           {/* Brand */}
           <div>
             <span className="font-serif italic font-light text-[2.2rem] text-ivory block mb-3">
-              Azurel
+              Azurél
             </span>
             <p className="text-[0.55rem] tracking-[2px] text-blue-lt/40 leading-[1.9] mb-6">
-              Fine jewellery crafted in Vienna.
-              <br />
-              Moissanite · Zirconium · 18K Gold Plated.
+              {t("footer", "tagline")}
             </p>
             <div className="flex gap-2.5">
               {socials.map((social) => (
@@ -65,26 +66,56 @@ export function Footer({
           {/* Collection Links */}
           <div>
             <span className="text-[0.42rem] tracking-[4px] uppercase text-blue-lt/[0.25] block mb-4">
-              Collection
+              {t("footer", "collection")}
             </span>
             <ul className="flex flex-col gap-2.5">
-              {["Necklaces", "Rings", "Earrings", "Bracelets", "New Arrivals"].map((label) => (
-                <li key={label}>
-                  <Link
-                    href="/#shop"
-                    className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/#shop"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  {t("footer", "necklaces")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#shop"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  {t("footer", "rings")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#shop"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  {t("footer", "earrings")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#shop"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  {t("footer", "bracelets")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#shop"
+                  className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
+                >
+                  {t("footer", "newArrivals")}
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Information Links */}
           <div>
             <span className="text-[0.42rem] tracking-[4px] uppercase text-blue-lt/[0.25] block mb-4">
-              Information
+              {t("footer", "information")}
             </span>
             <ul className="flex flex-col gap-2.5">
               <li>
@@ -92,7 +123,7 @@ export function Footer({
                   href="/#about"
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
                 >
-                  Our Story
+                  {t("footer", "ourStory")}
                 </Link>
               </li>
               <li>
@@ -100,7 +131,7 @@ export function Footer({
                   onClick={onOpenCareGuide}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
-                  Jewellery Care
+                  {t("footer", "jewelleryCare")}
                 </button>
               </li>
               <li>
@@ -108,7 +139,7 @@ export function Footer({
                   onClick={onOpenSizingGuide}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
-                  Sizing Guide
+                  {t("footer", "sizingGuide")}
                 </button>
               </li>
               <li>
@@ -116,7 +147,7 @@ export function Footer({
                   onClick={onOpenSustainability}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
-                  Sustainability
+                  {t("footer", "sustainability")}
                 </button>
               </li>
               <li>
@@ -124,7 +155,7 @@ export function Footer({
                   href="/#contact"
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
                 >
-                  Press
+                  {t("footer", "press")}
                 </Link>
               </li>
             </ul>
@@ -133,7 +164,7 @@ export function Footer({
           {/* Support Links */}
           <div>
             <span className="text-[0.42rem] tracking-[4px] uppercase text-blue-lt/[0.25] block mb-4">
-              Support
+              {t("footer", "support")}
             </span>
             <ul className="flex flex-col gap-2.5">
               <li>
@@ -141,7 +172,7 @@ export function Footer({
                   onClick={onOpenShippingInfo}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
-                  Shipping &amp; Returns
+                  {t("footer", "shippingReturns")}
                 </button>
               </li>
               <li>
@@ -149,7 +180,7 @@ export function Footer({
                   onClick={onOpenTrackOrder}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
-                  Track My Order
+                  {t("footer", "trackOrder")}
                 </button>
               </li>
               <li>
@@ -157,7 +188,7 @@ export function Footer({
                   onClick={onOpenFAQ}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
-                  FAQ
+                  {t("footer", "faq")}
                 </button>
               </li>
               <li>
@@ -165,7 +196,7 @@ export function Footer({
                   onClick={onOpenCustomerSupport}
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors bg-transparent border-none p-0 text-left"
                 >
-                  Customer Support
+                  {t("footer", "customerSupport")}
                 </button>
               </li>
               <li>
@@ -173,7 +204,7 @@ export function Footer({
                   href="/#contact"
                   className="font-serif italic text-[0.95rem] font-light text-blue-lt/35 hover:text-blue-lt transition-colors"
                 >
-                  Contact
+                  {t("footer", "contactUs")}
                 </Link>
               </li>
             </ul>
@@ -183,26 +214,26 @@ export function Footer({
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-3.5 text-center">
           <span className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2]">
-            © 2025 Azurel Fine Jewellery · Vienna, Austria · All rights reserved
+            © 2025 Azurél Fine Jewellery · Vienna, Austria · All rights reserved
           </span>
           <div className="flex gap-5">
             <button
               onClick={onOpenPrivacyPolicy}
               className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
             >
-              Privacy Policy
+              {t("footer", "privacyPolicy")}
             </button>
             <button
               onClick={onOpenTerms}
               className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
             >
-              Terms
+              {t("footer", "terms")}
             </button>
             <button
               onClick={onOpenPrivacyPolicy}
               className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2] hover:text-blue-lt/50 transition-colors bg-transparent border-none p-0"
             >
-              Cookies
+              {t("footer", "cookies")}
             </button>
           </div>
         </div>

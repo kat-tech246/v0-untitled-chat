@@ -2,8 +2,10 @@
 
 import { useEffect, useRef } from "react"
 import Link from "next/link"
+import { useLanguage } from "@/lib/language-context"
 
 export function HeroSection() {
+  const { t } = useLanguage()
   const orbsRef = useRef<HTMLDivElement[]>([])
   const ghostRef = useRef<HTMLDivElement>(null)
 
@@ -60,14 +62,14 @@ export function HeroSection() {
 
           {/* Headline */}
           <h1 className="font-serif italic font-light text-[2.2rem] text-wine leading-[1.12] mb-5 animate-fadeUp-delay-1">
-            Each Azurél piece is
+            {t("hero", "headline1")}
             <br />
-            designed to be worn.
+            {t("hero", "headline2")}
           </h1>
 
           {/* Description */}
           <p className="font-serif font-light text-[0.95rem] text-blue-deep leading-[1.85] max-w-[320px] mx-auto mb-8 animate-fadeUp-delay-2">
-            Not saved. Whether layered or worn alone, every piece adapts to your style, not the other way around.
+            {t("hero", "subline")}
           </p>
 
           {/* Buttons */}
@@ -76,13 +78,13 @@ export function HeroSection() {
               href="#shop"
               className="text-[0.44rem] font-extralight tracking-[4px] uppercase text-ivory bg-wine border-[0.5px] border-wine px-10 py-4 inline-block hover:bg-wine-deep transition-all duration-300 w-full max-w-[260px]"
             >
-              Explore Collection
+              {t("hero", "exploreCollection")}
             </Link>
             <Link
               href="#about"
               className="text-[0.44rem] font-extralight tracking-[4px] uppercase text-wine flex items-center gap-2 hover:opacity-65 transition-all duration-300"
             >
-              Our story <span className="text-[0.85rem]">→</span>
+              {t("hero", "ourStory")} <span className="text-[0.85rem]">→</span>
             </Link>
           </div>
         </div>
@@ -151,14 +153,14 @@ export function HeroSection() {
 
               {/* Headline */}
               <h1 className="font-serif italic font-light text-[clamp(2.4rem,4.5vw,4.5rem)] text-wine leading-[1.08] mb-6 animate-fadeUp-delay-1">
-                Each Azurél piece is
+                {t("hero", "headline1")}
                 <br />
-                designed to be worn.
+                {t("hero", "headline2")}
               </h1>
 
               {/* Description */}
               <p className="font-serif font-light text-base text-blue-deep leading-[1.9] max-w-[360px] mb-11 animate-fadeUp-delay-2 mx-auto lg:mx-0">
-                Not saved. Whether layered or worn alone, every piece adapts to your style, not the other way around.
+                {t("hero", "subline")}
               </p>
 
               {/* Buttons */}
@@ -167,13 +169,13 @@ export function HeroSection() {
                   href="#shop"
                   className="text-[0.46rem] font-extralight tracking-[4px] uppercase text-ivory bg-wine border-[0.5px] border-wine px-9 py-[15px] inline-block hover:bg-wine-deep hover:border-wine-deep hover:shadow-[0_8px_28px_rgba(90,15,26,0.18)] hover:-translate-y-[1px] transition-all duration-400"
                 >
-                  Explore Collection
+                  {t("hero", "exploreCollection")}
                 </Link>
                 <Link
                   href="#about"
                   className="text-[0.46rem] font-extralight tracking-[4px] uppercase text-wine flex items-center gap-2.5 hover:gap-4 hover:opacity-65 transition-all duration-300"
                 >
-                  Our story <span className="text-[0.85rem]">→</span>
+                  {t("hero", "ourStory")} <span className="text-[0.85rem]">→</span>
                 </Link>
               </div>
             </div>

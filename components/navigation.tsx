@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Search, Heart, ShoppingBag, Ruler, Truck, Sparkles, HelpCircle, X, ChevronDown } from "lucide-react"
+import { Search, Heart, ShoppingBag, Ruler, Truck, Sparkles, HelpCircle, ChevronDown } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
+import { LanguageSwitcher } from "./language-switcher"
 
 interface NavigationProps {
   cartCount: number
@@ -25,6 +27,7 @@ export function Navigation({
   onOpenShippingInfo,
   onOpenCareGuide,
 }: NavigationProps) {
+  const { t } = useLanguage()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isHelpOpen, setIsHelpOpen] = useState(false)
@@ -51,11 +54,41 @@ export function Navigation({
 
   const closeMenu = () => setIsMenuOpen(false)
 
-  const helpItems = [
-    { icon: Ruler, label: "Sizing Guide", description: "Find your perfect fit", onClick: onOpenSizingGuide },
-    { icon: Truck, label: "Shipping & Returns", description: "Free worldwide delivery", onClick: onOpenShippingInfo },
-    { icon: Sparkles, label: "Jewellery Care", description: "Keep your pieces radiant", onClick: onOpenCareGuide },
+  const navItems = [
+    { href: "#home", labelKey: "home" },
+    { href: "#shop", labelKey: "collection" },
+    { href: "#lookbook", labelKey: "lookbook" },
+    { href: "#about", labelKey: "ourMaison" },
+    { href: "#contact", labelKey: "contact" },
   ]
+
+  const helpItems = [
+    { icon: Ruler, labelKey: "sizingGuide", descKey: "sizingDesc", onClick: onOpenSizingGuide },
+    { icon: Truck, labelKey: "shippingReturns", descKey: "shippingDesc", onClick: onOpenShippingInfo },
+    { icon: Sparkles, labelKey: "jewelleryCare", descKey: "careDesc", onClick: onOpenCareGuide },
+  ]
+
+  const helpLabels: Record<string, { en: string; de: string; ru: string }> = {
+    sizingGuide: { en: "Sizing Guide", de: "Größenguide", ru: "Руководство по размерам" },
+    shippingReturns: { en: "Shipping & Returns", de: "Versand & Rückgabe", ru: "Доставка и возврат" },
+    jewelleryCare: { en: "Jewellery Care", de: "Schmuckpflege", ru: "Уход за украшениями" },
+    sizingDesc: { en: "Find your perfect fit", de: "Finde deine perfekte Größe", ru: "Найдите идеальный размер" },
+    shippingDesc: { en: "Free worldwide delivery", de: "Kostenloser weltweiter Versand", ru: "Бесплатная доставка по всему миру" },
+    careDesc: { en: "Keep your pieces radiant", de: "Halte deine Stücke strahlend", ru: "Сохраняйте ваши украшения сияющими" },
+    help: { en: "Help", de: "Hilfe", ru: "Помощь" },
+    quickLinks: { en: "Quick Links", de: "Schnellzugriff", ru: "Быстрые ссылки" },
+    visitAtelier: { en: "Visit Our Atelier", de: "Besuche unser Atelier", ru: "Посетите наше ателье" },
+    contactLabel: { en: "Contact", de: "Kontakt", ru: "Контакт" },
+    hoursLabel: { en: "Hours", de: "Öffnungszeiten", ru: "Часы работы" },
+    mondaySaturday: { en: "Monday - Saturday: 10:00 - 19:00", de: "Montag - Samstag: 10:00 - 19:00", ru: "Понедельник - Суббота: 10:00 - 19:00" },
+    sundayAppt: { en: "Sunday: By Appointment", de: "Sonntag: Nach Vereinbarung", ru: "Воскресенье: По предварительной записи" },
+    tagline: { en: "Fine Jewellery - Vienna - Since 2025", de: "Feiner Schmuck - Wien - Seit 2025", ru: "Ювелирные украшения - Вена - С 2025" },
+  }
+
+  const getHelpLabel = (key: string) => {
+    const { language } = useLanguage()
+    return helpLabels[key]?.[language] || key
+  }
 
   return (
     <>
@@ -99,13 +132,7 @@ export function Navigation({
             {/* Main Navigation */}
             <div className="flex-1 flex flex-col justify-center px-6 md:px-20 lg:px-32">
               <nav className="flex flex-col gap-4 md:gap-6">
-                {[
-                  { href: "#home", label: "Home" },
-                  { href: "#shop", label: "Collection" },
-                  { href: "#lookbook", label: "Lookbook" },
-                  { href: "#about", label: "Our Maison" },
-                  { href: "#contact", label: "Contact" },
-                ].map((item, index) => (
+                {navItems.map((item, index) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -119,7 +146,7 @@ export function Navigation({
                       0{index + 1}
                     </span>
                     <span className="font-serif italic font-light text-4xl md:text-5xl lg:text-6xl text-wine tracking-[2px] transition-all duration-300 group-hover:text-blue-deep group-hover:translate-x-3">
-                      {item.label}
+                      {t("nav", item.labelKey)}
                     </span>
                     <span className="hidden md:block w-0 h-[0.5px] bg-blue-mid transition-all duration-500 group-hover:w-20" />
                   </Link>
@@ -129,12 +156,12 @@ export function Navigation({
               {/* Quick Links in Menu */}
               <div className="mt-12 pt-8 border-t border-blue-mid/15">
                 <p className="text-[0.5rem] tracking-[4px] uppercase text-blue-mid/60 mb-4">
-                  Quick Links
+                  {getHelpLabel("quickLinks")}
                 </p>
                 <div className="flex flex-wrap gap-4">
                   {helpItems.map((item) => (
                     <button
-                      key={item.label}
+                      key={item.labelKey}
                       onClick={() => {
                         closeMenu()
                         item.onClick()
@@ -142,7 +169,7 @@ export function Navigation({
                       className="flex items-center gap-2 text-[0.6rem] tracking-[2px] uppercase text-blue-deep hover:text-wine transition-colors bg-transparent border-none p-0"
                     >
                       <item.icon className="w-4 h-4" strokeWidth={1.2} />
-                      {item.label}
+                      {getHelpLabel(item.labelKey)}
                     </button>
                   ))}
                 </div>
@@ -154,16 +181,16 @@ export function Navigation({
               <div className="space-y-8">
                 <div>
                   <p className="text-[0.6rem] font-light tracking-[4px] uppercase text-blue-mid/70 mb-3">
-                    Visit Our Atelier
+                    {getHelpLabel("visitAtelier")}
                   </p>
                   <p className="font-serif italic text-lg text-wine-deep leading-relaxed">
-                    Karntner Strasse 16<br />
+                    Kärntner Straße 16<br />
                     1010 Vienna, Austria
                   </p>
                 </div>
                 <div>
                   <p className="text-[0.6rem] font-light tracking-[4px] uppercase text-blue-mid/70 mb-3">
-                    Contact
+                    {getHelpLabel("contactLabel")}
                   </p>
                   <p className="font-serif italic text-lg text-wine-deep">
                     +43 1 512 00 00
@@ -174,11 +201,11 @@ export function Navigation({
                 </div>
                 <div>
                   <p className="text-[0.6rem] font-light tracking-[4px] uppercase text-blue-mid/70 mb-3">
-                    Hours
+                    {getHelpLabel("hoursLabel")}
                   </p>
                   <p className="text-[0.7rem] tracking-[1px] text-blue-deep leading-relaxed">
-                    Monday - Saturday: 10:00 - 19:00<br />
-                    Sunday: By Appointment
+                    {getHelpLabel("mondaySaturday")}<br />
+                    {getHelpLabel("sundayAppt")}
                   </p>
                 </div>
               </div>
@@ -199,7 +226,7 @@ export function Navigation({
               ))}
             </div>
             <p className="hidden md:block text-[0.55rem] font-light tracking-[2px] text-blue-mid/50">
-              Fine Jewellery - Vienna - Since 2025
+              {getHelpLabel("tagline")}
             </p>
           </div>
         </div>
@@ -214,7 +241,7 @@ export function Navigation({
         }`}
       >
         {/* Left - Hamburger Menu Button */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 md:gap-6">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="relative w-8 h-8 flex flex-col items-center justify-center gap-[6px] group bg-transparent border-none"
@@ -225,15 +252,20 @@ export function Navigation({
             <span className={`block w-6 h-[1px] bg-wine-deep transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-[7px]" : "group-hover:w-5 group-hover:-translate-x-[2px]"}`} />
           </button>
 
+          {/* Language Switcher - Desktop */}
+          <div className="hidden md:block">
+            <LanguageSwitcher />
+          </div>
+
           {/* Help Dropdown - Desktop only */}
-          <div className="hidden md:block relative">
+          <div className="hidden lg:block relative">
             <button
               onClick={() => setIsHelpOpen(!isHelpOpen)}
               onBlur={() => setTimeout(() => setIsHelpOpen(false), 150)}
               className="flex items-center gap-1 text-[0.48rem] font-light tracking-[3px] uppercase text-blue-mid hover:text-wine transition-colors bg-transparent border-none"
             >
               <HelpCircle className="w-4 h-4" strokeWidth={1.2} />
-              <span className="hidden lg:inline">Help</span>
+              <span>{getHelpLabel("help")}</span>
               <ChevronDown className={`w-3 h-3 transition-transform ${isHelpOpen ? "rotate-180" : ""}`} />
             </button>
 
@@ -248,7 +280,7 @@ export function Navigation({
               <div className="p-2">
                 {helpItems.map((item) => (
                   <button
-                    key={item.label}
+                    key={item.labelKey}
                     onClick={() => {
                       setIsHelpOpen(false)
                       item.onClick()
@@ -260,10 +292,10 @@ export function Navigation({
                     </div>
                     <div>
                       <span className="font-serif italic text-base text-wine block mb-1">
-                        {item.label}
+                        {getHelpLabel(item.labelKey)}
                       </span>
                       <span className="text-[0.4rem] tracking-[1px] text-blue-mid">
-                        {item.description}
+                        {getHelpLabel(item.descKey)}
                       </span>
                     </div>
                   </button>

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { CielPendantSvg, BraceletSvg, EarringsSvg, ChokerSvg } from "./jewelry-svgs"
+import { useLanguage } from "@/lib/language-context"
 
 const lookbookItems = [
   {
@@ -43,6 +44,7 @@ const bgStyles: Record<string, string> = {
 }
 
 export function LookbookSection() {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -70,19 +72,19 @@ export function LookbookSection() {
         <div className="sr flex justify-between items-end mb-12">
           <div>
             <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-blue-mid block mb-3">
-              Lookbook
+              {t("lookbook", "title")}
             </span>
             <h2 className="font-serif italic font-light text-[clamp(2rem,3.8vw,3rem)] text-wine leading-[1.1]">
-              Worn with
+              {t("lookbook", "wornWithIntention").split(" ").slice(0, 2).join(" ")}
               <br />
-              intention
+              {t("lookbook", "wornWithIntention").split(" ").slice(2).join(" ")}
             </h2>
           </div>
           <Link
             href="#"
             className="text-[0.46rem] font-extralight tracking-[4px] uppercase text-wine flex items-center gap-2.5 hover:gap-4 hover:opacity-65 transition-all duration-300"
           >
-            View all <span className="text-[0.85rem]">→</span>
+            {t("lookbook", "viewAll")} <span className="text-[0.85rem]">→</span>
           </Link>
         </div>
 

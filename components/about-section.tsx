@@ -1,16 +1,18 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-
-const pillars = [
-  "Ethical Stones · Moissanite & Zirconium",
-  "18K Gold Plating · Precision Crafted",
-  "Designed & Finished in Vienna",
-  "Sustainable Packaging",
-]
+import { useLanguage } from "@/lib/language-context"
 
 export function AboutSection() {
+  const { t, tArray } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
+
+  const pillars = [
+    t("ourStory", "pillarLabels.ethical"),
+    t("ourStory", "pillarLabels.gold"),
+    t("ourStory", "pillarLabels.vienna"),
+    t("ourStory", "pillarLabels.sustainable"),
+  ]
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,6 +31,8 @@ export function AboutSection() {
 
     return () => observer.disconnect()
   }, [])
+
+  const bodyParagraphs = tArray("ourStory", "body")
 
   return (
     <section id="about" className="py-20 md:py-30 bg-ivory" ref={sectionRef}>
@@ -83,30 +87,20 @@ export function AboutSection() {
           {/* Content */}
           <div className="sr d2">
             <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-blue-mid block mb-3">
-              Our Story
+              {t("ourStory", "title")}
             </span>
             <h2 className="font-serif italic font-light text-[clamp(2rem,3.8vw,3rem)] text-wine leading-[1.1] mb-7">
-              Designed to be worn.
+              {t("ourStory", "headline").split(".")[0]}.
               <br />
-              Not displayed.
+              {t("ourStory", "headline").split(".")[1]?.trim() || ""}
             </h2>
 
             <div className="space-y-4">
-              <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
-                Jewellery has always been treated like something you earn. A milestone. A gift for a specific version of yourself that hasn&apos;t arrived yet. We always found that a little sad.
-              </p>
-              <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
-                Azurél was founded in Vienna in 2026 with a simple idea: that beautiful, thoughtfully designed jewellery should be part of how you dress, not a reward you work toward. Something you reach for on a Tuesday. Something that makes an ordinary day feel considered.
-              </p>
-              <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
-                Our pieces are drawn to the kind of beauty that doesn&apos;t announce itself. Pear cuts, clean bezels, delicate chains, asymmetric details that reveal themselves slowly. We curate everything according to our own taste, which means nothing makes it in just because it is trending. It has to feel right.
-              </p>
-              <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
-                We work with moissanite and zirconium — stones chosen for their brilliance, their ethics, and the simple fact that they are genuinely beautiful. A lab diamond line is coming as Azurél grows. The philosophy will remain exactly the same.
-              </p>
-              <p className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
-                This is jewellery for people who know what they like and wear it without ceremony.
-              </p>
+              {bodyParagraphs.map((paragraph, index) => (
+                <p key={index} className="font-serif font-light text-[1.02rem] text-blue-deep leading-[1.95]">
+                  {paragraph}
+                </p>
+              ))}
             </div>
 
             {/* Pillars */}

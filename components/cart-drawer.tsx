@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { X, Minus, Plus, Trash2 } from "lucide-react"
 import { type Product } from "@/lib/products"
 import { RingSvg, NecklaceSvg, EarringsSvg, BraceletSvg } from "./jewelry-svgs"
+import { useLanguage } from "@/lib/language-context"
 
 export interface CartItem {
   product: Product
@@ -27,6 +28,8 @@ export function CartDrawer({
   onRemoveItem,
   onCheckout,
 }: CartDrawerProps) {
+  const { t } = useLanguage()
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
@@ -79,7 +82,7 @@ export function CartDrawer({
       >
         {/* Header */}
         <div className="flex justify-between items-center px-7 py-6 border-b border-blue-mid/20">
-          <span className="font-serif italic text-xl text-wine">Your Selection</span>
+          <span className="font-serif italic text-xl text-wine">{t("cart", "yourSelection")}</span>
           <button
             onClick={onClose}
             className="bg-transparent border-none text-blue-mid hover:text-wine transition-colors"
@@ -94,13 +97,13 @@ export function CartDrawer({
           {items.length === 0 ? (
             <div className="text-center py-16">
               <p className="font-serif italic text-lg text-blue-mid mb-5">
-                Your cart is empty.
+                {t("cart", "yourCartEmpty")}
               </p>
               <button
                 onClick={onClose}
                 className="text-[0.46rem] font-light tracking-[4px] uppercase text-ivory bg-wine border border-wine px-9 py-4 hover:bg-wine-deep hover:border-wine-deep transition-all"
               >
-                Explore Collection
+                {t("cart", "exploreCollection")}
               </button>
             </div>
           ) : (
@@ -143,7 +146,7 @@ export function CartDrawer({
                   <button
                     onClick={() => onRemoveItem(item.product.id)}
                     className="bg-transparent border-none text-blue-mid/50 hover:text-wine transition-colors p-1"
-                    aria-label="Remove item"
+                    aria-label={t("cart", "remove")}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -158,7 +161,7 @@ export function CartDrawer({
           <div className="px-7 py-6 border-t border-blue-mid/20">
             <div className="flex justify-between items-center mb-4">
               <span className="text-[0.42rem] tracking-[3px] uppercase text-blue-mid">
-                Subtotal
+                {t("cart", "subtotal")}
               </span>
               <span className="font-serif italic text-xl text-wine">
                 {"\u20AC"} {(subtotal / 100).toLocaleString()}
@@ -168,13 +171,13 @@ export function CartDrawer({
               onClick={onCheckout}
               className="w-full py-4 bg-wine border-none text-ivory text-[0.44rem] tracking-[4px] uppercase hover:bg-wine-deep transition-colors mb-3"
             >
-              Proceed to Checkout
+              {t("cart", "checkout")}
             </button>
             <button
               onClick={onClose}
               className="w-full py-3 bg-transparent border border-wine text-wine text-[0.42rem] tracking-[3px] uppercase hover:bg-wine hover:text-ivory transition-all"
             >
-              Continue Shopping
+              {t("cart", "exploreCollection")}
             </button>
             <p className="text-[0.36rem] tracking-[1px] text-blue-mid text-center mt-4 leading-relaxed">
               Complimentary shipping on all orders · Secure gift packaging included
