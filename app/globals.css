@@ -43,6 +43,7 @@
   --font-sans: var(--font-josefin-sans), 'Josefin Sans', sans-serif;
   --font-serif: var(--font-cormorant-garamond), 'Cormorant Garamond', Georgia, serif;
   --font-caps: var(--font-cinzel), 'Cinzel', serif;
+  --font-heading: var(--font-cinzel), 'Cinzel', serif;
   
   /* Custom Colors */
   --color-blue-lt: #DCE8F0;
