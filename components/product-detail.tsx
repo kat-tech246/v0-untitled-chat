@@ -73,9 +73,9 @@ export function ProductDetail({
       case 'rings':
         return { label: t('product', 'ringSize'), sizes: ["48", "50", "52", "54", "56", "58"] }
       case 'earrings':
-        return { label: t('product', 'style'), sizes: ["Studs", "Drop", "Hoops"] }
-      case 'bracelets':
-        return { label: t('product', 'size'), sizes: ["S (15cm)", "M (17cm)", "L (19cm)"] }
+        return { label: t('product', 'style'), sizes: [t('product', 'studs'), t('product', 'drop'), t('product', 'hoops')] }
+    case 'bracelets':
+        return { label: t('product', 'size'), sizes: [t('product', 'sizeS'), t('product', 'sizeM'), t('product', 'sizeL')] }
       default:
         return { label: t('product', 'size'), sizes: [] }
     }
