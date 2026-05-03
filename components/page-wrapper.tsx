@@ -213,7 +213,12 @@ export function PageWrapper() {
 
       <RegionSelector
         isOpen={isRegionSelectorOpen}
-        onClose={() => setIsRegionSelectorOpen(false)}
+        onClose={() => {
+          setIsRegionSelectorOpen(false)
+          setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }, 300)
+        }}
       />
 
       <Toast
