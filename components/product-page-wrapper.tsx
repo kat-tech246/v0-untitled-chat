@@ -17,6 +17,7 @@ import { TrackOrderModal } from "@/components/track-order-modal"
 import { CustomerSupportModal } from "@/components/customer-support-modal"
 import { SustainabilityModal } from "@/components/sustainability-modal"
 import { CheckoutModal } from "@/components/checkout-modal"
+import { RegionSelector } from "@/components/region-selector"
 import { Toast } from "@/components/toast"
 import { type Product } from "@/lib/products"
 import { useCart } from "@/lib/cart-context"
@@ -58,6 +59,7 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
   const [isSustainabilityOpen, setIsSustainabilityOpen] = useState(false)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
   const [checkoutProductId, setCheckoutProductId] = useState<string | null>(null)
+  const [isRegionSelectorOpen, setIsRegionSelectorOpen] = useState(false)
 
   // Cart handler that also opens the drawer
   const handleAddToCart = useCallback((p: Product, quantity: number = 1) => {
@@ -112,6 +114,7 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
         onOpenTerms={() => setIsTermsOpen(true)}
         onOpenTrackOrder={() => setIsTrackOrderOpen(true)}
         onOpenCustomerSupport={() => setIsCustomerSupportOpen(true)}
+        onOpenRegionSelector={() => setIsRegionSelectorOpen(true)}
       />
 
       {/* Overlays & Modals */}
@@ -197,6 +200,11 @@ export function ProductPageWrapper({ product, similarProducts }: ProductPageWrap
           productId={checkoutProductId}
         />
       )}
+
+      <RegionSelector
+        isOpen={isRegionSelectorOpen}
+        onClose={() => setIsRegionSelectorOpen(false)}
+      />
 
       <Toast
         message={toastMessage}

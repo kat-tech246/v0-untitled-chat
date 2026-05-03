@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Heart, ShoppingBag, ChevronDown, Ruler, Truck, RotateCcw, Shield, ArrowLeft, Minus, Plus, ChevronRight } from "lucide-react"
+import { Heart, ShoppingBag, ChevronDown, Ruler, Truck, RotateCcw, Shield, Minus, Plus, ChevronRight } from "lucide-react"
 import { NecklaceSvg, RingSvg, EarringsSvg, BraceletSvg, ChokerSvg, StackRingSvg } from "./jewelry-svgs"
 import { type Product, formatPrice } from "@/lib/products"
+import { useLanguage } from "@/lib/language-context"
 
 interface ProductDetailProps {
   product: Product
@@ -40,13 +41,6 @@ const bgStyles: Record<string, string> = {
   "bg-f": "linear-gradient(145deg, #DCE8F0, #EFF4F7)",
 }
 
-const sizeGuides: Record<string, { label: string; sizes: string[] }> = {
-  necklaces: { label: "Length", sizes: ["40cm", "45cm", "50cm", "55cm"] },
-  rings: { label: "Ring Size", sizes: ["48", "50", "52", "54", "56", "58"] },
-  earrings: { label: "Style", sizes: ["Studs", "Drop", "Hoops"] },
-  bracelets: { label: "Size", sizes: ["S (15cm)", "M (17cm)", "L (19cm)"] },
-}
-
 export function ProductDetail({ 
   product, 
   similarProducts,
@@ -56,14 +50,38 @@ export function ProductDetail({
   isInWishlist,
   onOpenSizingGuide,
 }: ProductDetailProps) {
+  const { t, language } = useLanguage()
   const [quantity, setQuantity] = useState(1)
   const [selectedSize, setSelectedSize] = useState("")
   const [activeAccordion, setActiveAccordion] = useState<string | null>("details")
   const [addedToCart, setAddedToCart] = useState(false)
 
   const ProductSvg = productSvgMap[product.id] || NecklaceSvg
-  const sizeGuide = sizeGuides[product.category] || sizeGuides.necklaces
   const isWishlisted = isInWishlist?.(product.id) ?? false
+
+  // Get translated category
+  const getCategoryLabel = () => {
+    const categoryKey = product.category as 'necklaces' | 'rings' | 'earrings' | 'bracelets'
+    return t('categories', categoryKey)
+  }
+
+  // Get size guide based on category
+  const getSizeGuide = () => {
+    switch (product.category) {
+      case 'necklaces':
+        return { label: t('product', 'length'), sizes: ["40cm", "45cm", "50cm", "55cm"] }
+      case 'rings':
+        return { label: t('product', 'ringSize'), sizes: ["48", "50", "52", "54", "56", "58"] }
+      case 'earrings':
+        return { label: t('product', 'style'), sizes: ["Studs", "Drop", "Hoops"] }
+      case 'bracelets':
+        return { label: t('product', 'size'), sizes: ["S (15cm)", "M (17cm)", "L (19cm)"] }
+      default:
+        return { label: t('product', 'size'), sizes: [] }
+    }
+  }
+
+  const sizeGuide = getSizeGuide()
 
   const handleAddToCart = () => {
     onAddToCart?.(product, quantity)
@@ -82,26 +100,26 @@ export function ProductDetail({
   const accordionItems = [
     {
       id: "details",
-      title: "Product Details",
+      title: t('product', 'productDetails'),
       content: (
         <div className="space-y-4 text-[0.7rem] text-blue-deep leading-relaxed">
           <p>{product.description}</p>
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
               <span className="w-1 h-1 rounded-full bg-wine mt-2 flex-shrink-0" />
-              <span>Material: 18K Gold Vermeil over Sterling Silver (2.5 microns)</span>
+              <span>{t('product', 'material')}</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="w-1 h-1 rounded-full bg-wine mt-2 flex-shrink-0" />
-              <span>Stones: Premium AAA-grade Moissanite or Cubic Zirconia</span>
+              <span>{t('product', 'stones')}</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="w-1 h-1 rounded-full bg-wine mt-2 flex-shrink-0" />
-              <span>Finish: Hand-polished with protective coating</span>
+              <span>{t('product', 'finish')}</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="w-1 h-1 rounded-full bg-wine mt-2 flex-shrink-0" />
-              <span>Hypoallergenic: Nickel-free, safe for sensitive skin</span>
+              <span>{t('product', 'hypoallergenic')}</span>
             </li>
           </ul>
         </div>
@@ -109,42 +127,42 @@ export function ProductDetail({
     },
     {
       id: "shipping",
-      title: "Shipping & Delivery",
+      title: t('product', 'shippingDelivery'),
       content: (
         <div className="space-y-4 text-[0.7rem] text-blue-deep leading-relaxed">
           <div className="flex items-start gap-3">
             <Truck className="w-4 h-4 text-wine flex-shrink-0 mt-0.5" strokeWidth={1.5} />
             <div>
-              <p className="font-medium text-wine-deep mb-1">Free Worldwide Shipping</p>
-              <p>Complimentary insured shipping on all orders. Express options available at checkout.</p>
+              <p className="font-medium text-wine-deep mb-1">{t('product', 'freeWorldwideShipping')}</p>
+              <p>{t('product', 'shippingDesc')}</p>
             </div>
           </div>
           <div className="bg-blue-lt/30 p-4 space-y-2">
-            <p><strong>Austria:</strong> 2-3 business days</p>
-            <p><strong>Europe:</strong> 3-5 business days</p>
-            <p><strong>International:</strong> 5-7 business days</p>
+            <p><strong>{t('product', 'austria')}</strong> {t('product', 'days23')}</p>
+            <p><strong>{t('product', 'europe')}</strong> {t('product', 'days35')}</p>
+            <p><strong>{t('product', 'international')}</strong> {t('product', 'days57')}</p>
           </div>
           <p className="text-[0.6rem] text-blue-mid">
-            All shipments include tracking. Signature required upon delivery.
+            {t('product', 'trackingNote')}
           </p>
         </div>
       )
     },
     {
       id: "sizing",
-      title: "Sizing Guide",
+      title: t('product', 'sizingGuide'),
       content: (
         <div className="space-y-4 text-[0.7rem] text-blue-deep leading-relaxed">
           <div className="flex items-start gap-3">
             <Ruler className="w-4 h-4 text-wine flex-shrink-0 mt-0.5" strokeWidth={1.5} />
             <div>
-              <p className="font-medium text-wine-deep mb-1">Find Your Perfect Fit</p>
-              <p>Use our sizing guide to ensure the perfect fit for your new piece.</p>
+              <p className="font-medium text-wine-deep mb-1">{t('product', 'findPerfectFit')}</p>
+              <p>{t('product', 'useSizingGuide')}</p>
             </div>
           </div>
           {product.category === "rings" && (
             <div className="bg-blue-lt/30 p-4">
-              <p className="font-medium text-wine-deep mb-2">Ring Size Chart (EU)</p>
+              <p className="font-medium text-wine-deep mb-2">{t('product', 'ringSizeChart')}</p>
               <div className="grid grid-cols-3 gap-2 text-[0.6rem]">
                 <div><strong>Size 48:</strong> 15.3mm</div>
                 <div><strong>Size 50:</strong> 15.9mm</div>
@@ -157,62 +175,62 @@ export function ProductDetail({
           )}
           {product.category === "necklaces" && (
             <div className="bg-blue-lt/30 p-4">
-              <p className="font-medium text-wine-deep mb-2">Chain Length Guide</p>
+              <p className="font-medium text-wine-deep mb-2">{t('product', 'chainLengthGuide')}</p>
               <div className="space-y-1 text-[0.6rem]">
-                <p><strong>40cm:</strong> Sits at the base of neck (choker style)</p>
-                <p><strong>45cm:</strong> Sits at the collarbone (classic length)</p>
-                <p><strong>50cm:</strong> Falls below collarbone (versatile)</p>
-                <p><strong>55cm:</strong> Falls at chest level (statement)</p>
+                <p><strong>40cm:</strong> {language === 'ru' ? 'На основании шеи (чокер)' : language === 'de' ? 'Am Halsansatz (Choker-Stil)' : 'Sits at the base of neck (choker style)'}</p>
+                <p><strong>45cm:</strong> {language === 'ru' ? 'На ключице (классическая длина)' : language === 'de' ? 'Am Schlüsselbein (klassische Länge)' : 'Sits at the collarbone (classic length)'}</p>
+                <p><strong>50cm:</strong> {language === 'ru' ? 'Ниже ключицы (универсальная)' : language === 'de' ? 'Unter dem Schlüsselbein (vielseitig)' : 'Falls below collarbone (versatile)'}</p>
+                <p><strong>55cm:</strong> {language === 'ru' ? 'На уровне груди (statement)' : language === 'de' ? 'Auf Brusthöhe (Statement)' : 'Falls at chest level (statement)'}</p>
               </div>
             </div>
           )}
           {product.category === "bracelets" && (
             <div className="bg-blue-lt/30 p-4">
-              <p className="font-medium text-wine-deep mb-2">Bracelet Size Guide</p>
+              <p className="font-medium text-wine-deep mb-2">{t('product', 'braceletSizeGuide')}</p>
               <div className="space-y-1 text-[0.6rem]">
-                <p><strong>S (15cm):</strong> Petite wrist (13-14cm circumference)</p>
-                <p><strong>M (17cm):</strong> Average wrist (15-16cm circumference)</p>
-                <p><strong>L (19cm):</strong> Larger wrist (17-18cm circumference)</p>
+                <p><strong>S (15cm):</strong> {language === 'ru' ? 'Тонкое запястье (13-14см)' : language === 'de' ? 'Zierliches Handgelenk (13-14cm)' : 'Petite wrist (13-14cm circumference)'}</p>
+                <p><strong>M (17cm):</strong> {language === 'ru' ? 'Среднее запястье (15-16см)' : language === 'de' ? 'Durchschnittliches Handgelenk (15-16cm)' : 'Average wrist (15-16cm circumference)'}</p>
+                <p><strong>L (19cm):</strong> {language === 'ru' ? 'Широкое запястье (17-18см)' : language === 'de' ? 'Größeres Handgelenk (17-18cm)' : 'Larger wrist (17-18cm circumference)'}</p>
               </div>
             </div>
           )}
           {product.category === "earrings" && (
             <div className="bg-blue-lt/30 p-4">
-              <p className="font-medium text-wine-deep mb-2">Earring Styles</p>
+              <p className="font-medium text-wine-deep mb-2">{t('product', 'earringStyles')}</p>
               <div className="space-y-1 text-[0.6rem]">
-                <p><strong>Studs:</strong> Classic, close to the ear</p>
-                <p><strong>Drop:</strong> Dangle below the earlobe</p>
-                <p><strong>Hoops:</strong> Circular design, various sizes available</p>
+                <p><strong>Studs:</strong> {language === 'ru' ? 'Классические, близко к уху' : language === 'de' ? 'Klassisch, nah am Ohr' : 'Classic, close to the ear'}</p>
+                <p><strong>Drop:</strong> {language === 'ru' ? 'Свисают ниже мочки' : language === 'de' ? 'Hängen unter dem Ohrläppchen' : 'Dangle below the earlobe'}</p>
+                <p><strong>Hoops:</strong> {language === 'ru' ? 'Круглые, разные размеры' : language === 'de' ? 'Rundes Design, verschiedene Größen' : 'Circular design, various sizes available'}</p>
               </div>
             </div>
           )}
           <p className="text-[0.6rem] text-blue-mid">
-            Unsure of your size? Contact our concierge team for personalized assistance.
+            {t('product', 'contactConcierge')}
           </p>
         </div>
       )
     },
     {
       id: "returns",
-      title: "Returns & Care",
+      title: t('product', 'returnsCare'),
       content: (
         <div className="space-y-4 text-[0.7rem] text-blue-deep leading-relaxed">
           <div className="flex items-start gap-3">
             <RotateCcw className="w-4 h-4 text-wine flex-shrink-0 mt-0.5" strokeWidth={1.5} />
             <div>
-              <p className="font-medium text-wine-deep mb-1">30-Day Returns</p>
-              <p>Unworn items in original packaging may be returned within 30 days for a full refund.</p>
+              <p className="font-medium text-wine-deep mb-1">{t('product', 'daysReturns')}</p>
+              <p>{t('product', 'returnsDesc')}</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <Shield className="w-4 h-4 text-wine flex-shrink-0 mt-0.5" strokeWidth={1.5} />
             <div>
-              <p className="font-medium text-wine-deep mb-1">Care Instructions</p>
+              <p className="font-medium text-wine-deep mb-1">{t('product', 'careInstructions')}</p>
               <ul className="space-y-1 mt-2">
-                <li>Store in the provided jewellery box</li>
-                <li>Remove before swimming or bathing</li>
-                <li>Avoid contact with perfumes and lotions</li>
-                <li>Clean gently with a soft, dry cloth</li>
+                <li>{t('product', 'storeInBox')}</li>
+                <li>{t('product', 'removeBeforeSwimming')}</li>
+                <li>{t('product', 'avoidPerfumes')}</li>
+                <li>{t('product', 'cleanGently')}</li>
               </ul>
             </div>
           </div>
@@ -227,11 +245,11 @@ export function ProductDetail({
       <div className="max-w-[1200px] mx-auto px-6 md:px-14 py-6">
         <nav className="flex items-center gap-2 text-[0.55rem] tracking-[1px]">
           <Link href="/" className="text-blue-mid hover:text-wine transition-colors">
-            Home
+            {t('product', 'home')}
           </Link>
           <ChevronRight className="w-3 h-3 text-blue-mid/50" />
           <Link href="/#shop" className="text-blue-mid hover:text-wine transition-colors">
-            Collection
+            {t('product', 'collection')}
           </Link>
           <ChevronRight className="w-3 h-3 text-blue-mid/50" />
           <span className="text-wine">{product.name}</span>
@@ -250,7 +268,7 @@ export function ProductDetail({
             >
               {product.badge && (
                 <div className="absolute top-4 left-4 bg-wine text-ivory text-[0.35rem] tracking-[2px] uppercase px-3 py-1.5 z-10">
-                  {product.badge}
+                  {product.badge === 'New' ? t('collection', 'new') : product.badge === 'Bestseller' ? t('collection', 'bestseller') : product.badge}
                 </div>
               )}
               <div className="absolute inset-0 flex items-center justify-center">
@@ -280,7 +298,7 @@ export function ProductDetail({
           <div className="lg:py-4">
             {/* Category */}
             <span className="text-[0.45rem] tracking-[3px] uppercase text-blue-mid block mb-2">
-              {product.category}
+              {getCategoryLabel()}
             </span>
 
             {/* Name */}
@@ -308,7 +326,7 @@ export function ProductDetail({
                   onClick={onOpenSizingGuide}
                   className="text-[0.4rem] tracking-[1px] text-wine underline underline-offset-2 hover:text-wine-deep transition-colors"
                 >
-                  Size Guide
+                  {t('product', 'sizeGuide')}
                 </button>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -331,7 +349,7 @@ export function ProductDetail({
             {/* Quantity */}
             <div className="mb-8">
               <label className="text-[0.45rem] tracking-[2px] uppercase text-blue-mid block mb-3">
-                Quantity
+                {t('product', 'quantity')}
               </label>
               <div className="inline-flex items-center border border-blue-mid/30">
                 <button
@@ -357,13 +375,13 @@ export function ProductDetail({
                 className="flex-1 flex items-center justify-center gap-2 text-[0.42rem] tracking-[3px] uppercase py-4 border border-wine text-wine hover:bg-wine hover:text-ivory transition-colors"
               >
                 <ShoppingBag className="w-4 h-4" strokeWidth={1.5} />
-                {addedToCart ? "Added to Bag" : "Add to Bag"}
+                {addedToCart ? t('product', 'addedToBag') : t('product', 'addToBag')}
               </button>
               <button
                 onClick={handleBuyNow}
                 className="flex-1 text-[0.42rem] tracking-[3px] uppercase py-4 bg-wine text-ivory hover:bg-wine-deep transition-colors"
               >
-                Buy Now
+                {t('product', 'buyNow')}
               </button>
               <button
                 onClick={handleToggleWishlist}
@@ -386,15 +404,15 @@ export function ProductDetail({
             <div className="grid grid-cols-3 gap-4 py-6 border-y border-blue-mid/15 mb-8">
               <div className="text-center">
                 <Truck className="w-5 h-5 text-wine mx-auto mb-2" strokeWidth={1.2} />
-                <p className="text-[0.45rem] tracking-[1px] text-blue-mid">Free Shipping</p>
+                <p className="text-[0.45rem] tracking-[1px] text-blue-mid">{t('product', 'freeShipping')}</p>
               </div>
               <div className="text-center">
                 <RotateCcw className="w-5 h-5 text-wine mx-auto mb-2" strokeWidth={1.2} />
-                <p className="text-[0.45rem] tracking-[1px] text-blue-mid">30-Day Returns</p>
+                <p className="text-[0.45rem] tracking-[1px] text-blue-mid">{t('product', 'returns')}</p>
               </div>
               <div className="text-center">
                 <Shield className="w-5 h-5 text-wine mx-auto mb-2" strokeWidth={1.2} />
-                <p className="text-[0.45rem] tracking-[1px] text-blue-mid">2-Year Warranty</p>
+                <p className="text-[0.45rem] tracking-[1px] text-blue-mid">{t('product', 'warranty')}</p>
               </div>
             </div>
 
@@ -432,10 +450,10 @@ export function ProductDetail({
       <div className="bg-blue-lt/30 py-20">
         <div className="max-w-[1200px] mx-auto px-6 md:px-14">
           <h2 className="font-serif italic font-light text-2xl text-wine text-center mb-3">
-            You May Also Love
+            {t('product', 'youMayLove')}
           </h2>
           <p className="text-[0.55rem] tracking-[2px] uppercase text-blue-mid text-center mb-12">
-            Similar pieces from our collection
+            {t('product', 'similarPieces')}
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -453,36 +471,22 @@ export function ProductDetail({
                   >
                     {similarProduct.badge && (
                       <div className="absolute top-3 left-3 bg-wine text-ivory text-[0.3rem] tracking-[2px] uppercase px-2 py-1 z-10">
-                        {similarProduct.badge}
+                        {similarProduct.badge === 'New' ? t('collection', 'new') : similarProduct.badge === 'Bestseller' ? t('collection', 'bestseller') : similarProduct.badge}
                       </div>
                     )}
                     <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
                       <SimilarSvg className="w-[50%] drop-shadow-[0_8px_18px_rgba(90,15,26,0.08)]" />
                     </div>
                   </div>
-                  <span className="text-[0.4rem] tracking-[2px] uppercase text-blue-mid block mb-1">
-                    {similarProduct.category}
-                  </span>
-                  <span className="font-serif italic text-lg text-wine block mb-1 group-hover:text-wine-deep transition-colors">
+                  <h3 className="font-serif italic text-base text-wine mb-1 group-hover:text-wine-deep transition-colors">
                     {similarProduct.name}
-                  </span>
-                  <span className="text-[0.5rem] tracking-[1px] text-blue-deep">
+                  </h3>
+                  <p className="text-[0.6rem] tracking-[1px] text-blue-mid">
                     {formatPrice(similarProduct.priceInCents)}
-                  </span>
+                  </p>
                 </Link>
               )
             })}
-          </div>
-
-          {/* Back to Collection */}
-          <div className="text-center mt-14">
-            <Link
-              href="/#shop"
-              className="inline-flex items-center gap-2 text-[0.45rem] tracking-[3px] uppercase text-wine border border-wine px-8 py-4 hover:bg-wine hover:text-ivory transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
-              Back to Collection
-            </Link>
           </div>
         </div>
       </div>
