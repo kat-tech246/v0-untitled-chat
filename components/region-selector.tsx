@@ -15,6 +15,9 @@ export function RegionSelector({ isOpen, onClose }: RegionSelectorProps) {
   const handleSelect = (reg: Region, lang: Language) => {
     setLanguageAndRegion(lang, reg)
     onClose()
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 300)
   }
 
   return (
