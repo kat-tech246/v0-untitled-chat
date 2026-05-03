@@ -78,7 +78,7 @@ export function Navigation({
             <Link
               href="#home"
               onClick={closeMenu}
-              className="font-heading text-[1.75rem] text-wine tracking-[4px] uppercase hover:opacity-65 transition-opacity"
+              className="font-serif italic font-normal text-[2rem] text-wine tracking-[3px] hover:opacity-65 transition-opacity"
             >
               Azurél
             </Link>
@@ -276,7 +276,7 @@ export function Navigation({
         {/* Logo - Center */}
         <Link
           href="#home"
-          className="absolute left-1/2 -translate-x-1/2 font-heading text-[1.75rem] text-wine tracking-[4px] uppercase hover:opacity-65 transition-opacity"
+          className="absolute left-1/2 -translate-x-1/2 font-serif italic font-normal text-[2rem] text-wine tracking-[3px] hover:opacity-65 transition-opacity"
         >
           Azurél
         </Link>
