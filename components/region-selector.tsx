@@ -17,6 +17,10 @@ export function RegionSelector({ isOpen, onClose }: RegionSelectorProps) {
     onClose()
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
+      document.documentElement.scrollTo({ top: 0, behavior: 'smooth' })
+      document.body.scrollTo({ top: 0, behavior: 'smooth' })
+      const main = document.querySelector('main')
+      if (main) main.scrollTo({ top: 0, behavior: 'smooth' })
     }, 300)
   }
 
