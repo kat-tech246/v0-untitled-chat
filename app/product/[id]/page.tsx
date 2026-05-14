@@ -13,7 +13,6 @@ export async function generateStaticParams() {
 
 export default async function ProductPage({ params }: Props) {
   const { id } = await params
-  
   const [product, allProducts] = await Promise.all([
     fetchProductByHandle(id),
     fetchProducts(),
