@@ -1,52 +1,27 @@
-import { notFound } from "next/navigation"
-import { PRODUCTS } from "@/lib/products"
+import { fetchProductByHandle, fetchProducts } from "@/lib/products"
 import { ProductPageWrapper } from "@/components/product-page-wrapper"
-import { CustomCursor } from "@/components/custom-cursor"
+import { notFound } from "next/navigation"
+
+interface Props {
+  params: { id: string }
+}
 
 export async function generateStaticParams() {
-  return PRODUCTS.map((product) => ({
-    id: product.id,
-  }))
+  const products = await fetchProducts()
+  return products.map((p) => ({ id: p.id }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const product = PRODUCTS.find((p) => p.id === id)
-  
-  if (!product) {
-    return { title: "Product Not Found | Azurel" }
-  }
+export default async function ProductPage({ params }: Props) {
+  const [product, allProducts] = await Promise.all([
+    fetchProductByHandle(params.id),
+    fetchProducts(),
+  ])
 
-  return {
-    title: `${product.name} | Azurel Fine Jewellery`,
-    description: product.description,
-  }
-}
+  if (!product) notFound()
 
-export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const product = PRODUCTS.find((p) => p.id === id)
+  const similarProducts = allProducts
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 3)
 
-  if (!product) {
-    notFound()
-  }
-
-  const similarProducts = PRODUCTS.filter(
-    (p) => p.category === product.category && p.id !== product.id
-  ).slice(0, 3)
-
-  // If not enough similar in same category, add from other categories
-  if (similarProducts.length < 3) {
-    const additional = PRODUCTS.filter(
-      (p) => p.id !== product.id && !similarProducts.some((sp) => sp.id === p.id)
-    ).slice(0, 3 - similarProducts.length)
-    similarProducts.push(...additional)
-  }
-
-  return (
-    <>
-      <CustomCursor />
-      <ProductPageWrapper product={product} similarProducts={similarProducts} />
-    </>
-  )
+  return <ProductPageWrapper product={product} similarProducts={similarProducts} />
 }

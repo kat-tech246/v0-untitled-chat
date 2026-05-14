@@ -1,11 +1,7 @@
-import { CustomCursor } from "@/components/custom-cursor"
+import { fetchProducts } from "@/lib/products"
 import { PageWrapper } from "@/components/page-wrapper"
 
-export default function Home() {
-  return (
-    <>
-      <CustomCursor />
-      <PageWrapper />
-    </>
-  )
+export default async function Home() {
+  const products = await fetchProducts()
+  return <PageWrapper products={products} />
 }
