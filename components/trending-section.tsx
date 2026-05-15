@@ -67,24 +67,24 @@ export function TrendingSection({
   }
 
   return (
-    <section ref={sectionRef} className="py-20 md:py-24 bg-wine-deep overflow-hidden">
+    <section ref={sectionRef} className="py-20 md:py-24 bg-blue-lt overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-6 md:px-14">
         {/* Header */}
         <div className="sr flex flex-col md:flex-row justify-between items-start md:items-end gap-5 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <TrendingUp className="w-4 h-4 text-blue-lt/60" strokeWidth={1.5} />
-              <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-blue-lt/60">
+              <TrendingUp className="w-4 h-4 text-wine/60" strokeWidth={1.5} />
+              <span className="text-[0.44rem] font-extralight tracking-[5px] uppercase text-wine/60">
                 {t("trending", "trendingNow")}
               </span>
             </div>
-            <h2 className="font-serif italic font-light text-[clamp(1.8rem,3.5vw,2.5rem)] text-ivory leading-[1.1]">
+            <h2 className="font-serif italic font-light text-[clamp(1.8rem,3.5vw,2.5rem)] text-wine-deep leading-[1.1]">
               {t("trending", "mostLoved")}
             </h2>
           </div>
           <Link
             href="/#shop"
-            className="flex items-center gap-2 text-[0.42rem] tracking-[3px] uppercase text-blue-lt/70 hover:text-ivory transition-colors group"
+            className="flex items-center gap-2 text-[0.42rem] tracking-[3px] uppercase text-wine/70 hover:text-wine-deep transition-colors group"
           >
             {t("trending", "viewAll")}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
@@ -163,13 +163,13 @@ export function TrendingSection({
 
                 {/* Product Info */}
                 <Link href={`/product/${product.id}`} className="block text-center">
-                  <span className="text-[0.4rem] tracking-[2px] uppercase text-blue-lt/50 block mb-1">
+                  <span className="text-[0.4rem] tracking-[2px] uppercase text-wine/50 block mb-1">
                     {t("categories", product.category as "necklaces" | "rings" | "earrings" | "bracelets")}
                   </span>
-                  <span className="font-serif italic text-xl text-ivory block mb-2 group-hover:text-blue-lt transition-colors">
+                  <span className="font-serif italic text-xl text-wine-deep block mb-2 group-hover:text-wine transition-colors">
                     {product.name}
                   </span>
-                  <span className="text-[0.5rem] tracking-[2px] text-blue-lt/70">
+                  <span className="text-[0.5rem] tracking-[2px] text-wine/70">
                     {formatPrice(product.priceInCents)}
                   </span>
                 </Link>
@@ -180,12 +180,12 @@ export function TrendingSection({
 
         {/* CTA */}
         <div className="sr text-center mt-14">
-          <p className="font-serif italic text-lg text-ivory/80 mb-6">
+          <p className="font-serif italic text-lg text-wine-deep/80 mb-6">
             {t("trending", "discover")}
           </p>
           <Link
             href="/#shop"
-            className="inline-block text-[0.42rem] tracking-[4px] uppercase text-wine-deep bg-ivory px-10 py-4 hover:bg-blue-lt transition-colors"
+            className="inline-block text-[0.42rem] tracking-[4px] uppercase text-ivory bg-wine px-10 py-4 hover:bg-wine-deep transition-colors"
           >
             {t("trending", "exploreCollection")}
           </Link>
