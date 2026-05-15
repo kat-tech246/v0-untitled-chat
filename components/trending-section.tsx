@@ -7,8 +7,6 @@ import { NecklaceSvg, RingSvg, EarringsSvg, BraceletSvg, ChokerSvg, StackRingSvg
 import { PRODUCTS, formatPrice, type Product } from "@/lib/products"
 import { useLanguage } from "@/lib/language-context"
 
-const trendingProducts = PRODUCTS.filter(p => p.badge === "New" || p.badge === "Bestseller").slice(0, 3)
-
 const productSvgMap: Record<string, React.ComponentType<{ className?: string }>> = {
   'ciel-pendant': NecklaceSvg,
   'aurore-bangle-ring': RingSvg,
@@ -34,15 +32,21 @@ interface TrendingSectionProps {
   onAddToCart?: (product: Product) => void
   onToggleWishlist?: (product: Product) => void
   wishlistItems?: Product[]
+  products?: Product[]
 }
 
-export function TrendingSection({ 
-  onAddToCart, 
+export function TrendingSection({
+  onAddToCart,
   onToggleWishlist,
-  wishlistItems = []
+  wishlistItems = [],
+  products,
 }: TrendingSectionProps) {
   const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
+
+  const trendingProducts = (products && products.length > 0 ? products : PRODUCTS)
+    .filter(p => p.badge === "New" || p.badge === "Bestseller")
+    .slice(0, 3)
 
   useEffect(() => {
     const observer = new IntersectionObserver(

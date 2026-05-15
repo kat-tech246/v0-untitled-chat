@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
 import { Marquee } from "@/components/marquee"
@@ -29,6 +29,7 @@ import { CheckoutModal } from "@/components/checkout-modal"
 import { RegionSelector } from "@/components/region-selector"
 import { Toast } from "@/components/toast"
 import { useCart } from "@/lib/cart-context"
+import { fetchProducts, type Product } from "@/lib/products"
 
 export function PageWrapper() {
   // Use shared cart context
@@ -45,6 +46,14 @@ export function PageWrapper() {
     isToastVisible,
     hideToast,
   } = useCart()
+
+  const [shopifyProducts, setShopifyProducts] = useState<Product[]>([])
+
+  useEffect(() => {
+    fetchProducts().then(products => {
+      setShopifyProducts(products)
+    })
+  }, [])
 
   // UI State
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -93,16 +102,18 @@ export function PageWrapper() {
       <main>
         <HeroSection />
         <Marquee />
-        <TrendingSection 
+        <TrendingSection
           onAddToCart={addToCart}
           onToggleWishlist={toggleWishlist}
           wishlistItems={wishlistItems}
+          products={shopifyProducts.length > 0 ? shopifyProducts : undefined}
         />
-        <ShopSection 
+        <ShopSection
           onAddToCart={addToCart}
           onToggleWishlist={toggleWishlist}
           onBuyNow={handleBuyNow}
           wishlistItems={wishlistItems}
+          products={shopifyProducts.length > 0 ? shopifyProducts : undefined}
         />
         <StatementSection />
         <LookbookSection />
