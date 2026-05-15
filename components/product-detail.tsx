@@ -272,7 +272,11 @@ export function ProductDetail({
                 </div>
               )}
               <div className="absolute inset-0 flex items-center justify-center">
-                <ProductSvg className="w-[60%] drop-shadow-[0_12px_30px_rgba(90,15,26,0.12)]" />
+                {product.image ? (
+                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                ) : (
+                  <ProductSvg className="w-[60%] drop-shadow-[0_12px_30px_rgba(90,15,26,0.12)]" />
+                )}
               </div>
             </div>
 
@@ -287,7 +291,11 @@ export function ProductDetail({
                   style={{ background: bgStyles[product.bg] }}
                 >
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <ProductSvg className="w-[55%] opacity-80" />
+                    {product.image ? (
+                      <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80" />
+                    ) : (
+                      <ProductSvg className="w-[55%] opacity-80" />
+                    )}
                   </div>
                 </button>
               ))}
