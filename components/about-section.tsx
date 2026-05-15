@@ -76,10 +76,8 @@ export function AboutSection() {
             {/* Stat Box */}
             <div className="hidden md:flex absolute -bottom-[26px] -right-[26px] w-[148px] h-[148px] bg-wine flex-col items-center justify-center text-center gap-1 shadow-[0_14px_36px_rgba(90,15,26,0.2)]">
               <span className="font-serif italic text-[2.5rem] font-light text-blue-lt leading-none">∞</span>
-              <span className="text-[0.33rem] tracking-[2px] uppercase text-blue-lt/45">
-                Made with
-                <br />
-                love
+             <span className="text-[0.33rem] tracking-[2px] uppercase text-blue-lt/45">
+              Est. 2026
               </span>
             </div>
           </div>

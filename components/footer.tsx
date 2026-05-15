@@ -220,7 +220,7 @@ export function Footer({
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center">
           <span className="text-[0.42rem] tracking-[2px] text-blue-lt/[0.2]">
-            © 2025 Azurél Fine Jewellery · Vienna, Austria
+            © 2026 Azurél Fine Jewellery · Vienna, Austria
           </span>
           
           <div className="flex flex-wrap justify-center gap-5">
