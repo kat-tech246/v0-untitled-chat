@@ -51,7 +51,11 @@ export function PageWrapper() {
 
   useEffect(() => {
     fetchProducts().then(products => {
+      console.log('Shopify products fetched:', products.length)
+      console.log('First product image:', products[0]?.image)
       setShopifyProducts(products)
+    }).catch(err => {
+      console.error('Failed to fetch Shopify products:', err)
     })
   }, [])
 
