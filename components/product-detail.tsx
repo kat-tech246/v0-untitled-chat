@@ -55,6 +55,7 @@ export function ProductDetail({
   const [selectedSize, setSelectedSize] = useState("")
   const [activeAccordion, setActiveAccordion] = useState<string | null>("details")
   const [addedToCart, setAddedToCart] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   const ProductSvg = productSvgMap[product.id] || NecklaceSvg
   const isWishlisted = isInWishlist?.(product.id) ?? false
@@ -272,8 +273,8 @@ export function ProductDetail({
                 </div>
               )}
               <div className="absolute inset-0 flex items-center justify-center">
-                {product.image ? (
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                {(selectedImage || product.image) ? (
+                  <img src={selectedImage || product.image || ''} alt={product.name} className="w-full h-full object-cover" />
                 ) : (
                   <ProductSvg className="w-[60%] drop-shadow-[0_12px_30px_rgba(90,15,26,0.12)]" />
                 )}
@@ -282,17 +283,18 @@ export function ProductDetail({
 
             {/* Thumbnail Strip */}
             <div className="grid grid-cols-4 gap-3">
-              {[1, 2, 3, 4].map((i) => (
+              {(product.images && product.images.length > 0 ? product.images : [product.image]).filter(Boolean).slice(0, 4).map((img, i) => (
                 <button
                   key={i}
+                  onClick={() => setSelectedImage(img || null)}
                   className={`aspect-square relative overflow-hidden border-2 transition-colors ${
-                    i === 1 ? "border-wine" : "border-transparent hover:border-blue-mid/30"
+                    (selectedImage || product.image) === img ? "border-wine" : "border-transparent hover:border-blue-mid/30"
                   }`}
                   style={{ background: bgStyles[product.bg] }}
                 >
                   <div className="absolute inset-0 flex items-center justify-center">
-                    {product.image ? (
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80" />
+                    {img ? (
+                      <img src={img} alt={product.name} className="w-full h-full object-cover opacity-80" />
                     ) : (
                       <ProductSvg className="w-[55%] opacity-80" />
                     )}

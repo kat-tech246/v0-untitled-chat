@@ -84,6 +84,7 @@ export function shopifyProductToLocal(product: ShopifyProduct) {
     badge,
     bg: assignBackground(product.handle),
     image: product.images.edges[0]?.node.url || null,
+    images: product.images.edges.map(edge => edge.node.url),
     availableForSale: product.availableForSale,
   }
 }

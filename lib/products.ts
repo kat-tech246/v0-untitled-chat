@@ -11,6 +11,7 @@ export interface Product {
   badge: string | null
   bg: string
   image?: string | null
+  images?: string[]
   availableForSale?: boolean
 }
 
