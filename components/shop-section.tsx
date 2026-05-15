@@ -37,13 +37,15 @@ interface ShopSectionProps {
   onToggleWishlist?: (product: Product) => void
   onBuyNow?: (productId: string) => void
   wishlistItems?: Product[]
+  products?: Product[]
 }
 
-export function ShopSection({ 
-  onAddToCart, 
-  onToggleWishlist, 
+export function ShopSection({
+  onAddToCart,
+  onToggleWishlist,
   onBuyNow,
-  wishlistItems = []
+  wishlistItems = [],
+  products = PRODUCTS
 }: ShopSectionProps) {
   const { t } = useLanguage()
   const [activeFilter, setActiveFilter] = useState("all")
@@ -63,10 +65,10 @@ export function ShopSection({
     bracelets: t("categories", "bracelets"),
   }
 
-  const filteredProducts =
+const filteredProducts =
     activeFilter === "all"
-      ? PRODUCTS
-      : PRODUCTS.filter((p) => p.category === activeFilter)
+? products
+: products.filter((p) => p.category === activeFilter)
 
   const isInWishlist = (productId: string) => {
     return wishlistItems.some(item => item.id === productId)
@@ -143,9 +145,13 @@ export function ShopSection({
                     />
                   </button>
 
-                  {/* Product SVG */}
+                  {/* Product Image or SVG */}
                   <Link href={`/product/${product.id}`} className="absolute inset-0 flex items-center justify-center transition-transform duration-[600ms] group-hover:scale-105">
-                    <ProductSvg className="w-[52%] drop-shadow-[0_8px_18px_rgba(90,15,26,0.08)] group-hover:drop-shadow-[0_14px_28px_rgba(90,15,26,0.14)] transition-[filter] duration-400" />
+                    {product.image ? (
+                      <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <ProductSvg className="w-[52%] drop-shadow-[0_8px_18px_rgba(90,15,26,0.08)] group-hover:drop-shadow-[0_14px_28px_rgba(90,15,26,0.14)] transition-[filter] duration-400" />
+                    )}
                   </Link>
 
                   {/* Hover Overlay */}

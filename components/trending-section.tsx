@@ -134,11 +134,14 @@ export function TrendingSection({
                     <span className="font-serif italic text-wine text-lg">{index + 1}</span>
                   </div>
 
-                  {/* Product SVG */}
-                  <Link href={`/product/${product.id}`} className="absolute inset-0 flex items-center justify-center transition-transform duration-600 group-hover:scale-105">
-                    <ProductSvg className="w-[50%] drop-shadow-[0_10px_25px_rgba(90,15,26,0.1)]" />
-                  </Link>
-
+                  {/* Product Image or SVG */}
+<Link href={`/product/${product.id}`} className="absolute inset-0 flex items-center justify-center transition-transform duration-600 group-hover:scale-105">
+  {product.image ? (
+    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+  ) : (
+    <ProductSvg className="w-[50%] drop-shadow-[0_10px_25px_rgba(90,15,26,0.1)]" />
+  )}
+</Link>
                   {/* Hover Overlay with Actions */}
                   <div className="absolute bottom-0 left-0 right-0 bg-ivory/95 p-4 flex gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-400">
                     <button 
